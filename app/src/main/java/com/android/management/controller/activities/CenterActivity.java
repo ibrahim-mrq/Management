@@ -102,6 +102,9 @@ public class CenterActivity extends BaseActivity {
                         .start(Constants.REQUEST_GALLERY_CODE)
         );
 
+        fab.setOnClickListener(v ->
+                startActivity(new Intent(this, EpisodesActivity.class)));
+
     }
 
     private void initData(Center model) {

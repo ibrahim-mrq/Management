@@ -16,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".controller.activities.EpisodeDetailActivity"></activity>
-        <activity android:name=".controller.activities.EpisodesActivity" />
+
         <activity
             android:name=".controller.activities.SplashActivity"
             android:exported="true">
@@ -38,6 +37,12 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".controller.activities.CenterActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".controller.activities.EpisodesActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".controller.activities.EpisodeDetailActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
     </application>
 

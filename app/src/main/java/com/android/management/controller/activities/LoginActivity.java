@@ -2,6 +2,7 @@ package com.android.management.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,13 +52,12 @@ public class LoginActivity extends BaseActivity {
 
         tvTool.setText(getString(R.string.login));
 
+        String styledText = "مستخدم جديد ؟ <font color='#ca1313'> سجل الان </font>";
+        loginTvSignup.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
+
         loginTvSignup.setOnClickListener(view -> {
             startActivity(new Intent(this, RegisterActivity.class));
         });
-
-//        loginBtn.setOnClickListener(view -> {
-//            startActivity(new Intent(this, MainActivity.class));
-//        });
 
         loginBtn.setOnClickListener(view -> login());
 

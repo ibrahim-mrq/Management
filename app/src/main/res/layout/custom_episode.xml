@@ -99,9 +99,9 @@
                 android:layout_weight="1"
                 android:drawableEnd="@drawable/ic_student"
                 android:gravity="center"
+                android:text="قائمة الطلية"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                tools:text="قائمة الطلية" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/customEpisode_tv_wallets"
@@ -110,9 +110,9 @@
                 android:layout_weight="1"
                 android:drawableEnd="@drawable/ic_wallet"
                 android:gravity="center"
+                android:text="قائمة المحفظين"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                tools:text="قائمة المحفظين" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 

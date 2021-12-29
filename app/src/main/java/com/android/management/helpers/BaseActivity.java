@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
             textInputLayout.setError(getString(R.string.empty_field));
             return false;
         } else {
-            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setErrorEnabled(false);
             return true;
         }
     }
@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
             textInputLayout.setError(getString(R.string.empty_field));
             return false;
         } else {
-            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setErrorEnabled(false);
             return true;
         }
     }

@@ -18,12 +18,12 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-//            if (Hawk.get(Constants.IS_LOGIN, false)) {
-//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//            } else {
-//                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-//            }
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            if (Hawk.get(Constants.IS_LOGIN, false)) {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            } else {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            }
+//            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }, 2000);
 
