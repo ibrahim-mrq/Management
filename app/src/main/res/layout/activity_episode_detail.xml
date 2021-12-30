@@ -35,7 +35,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        app:srcCompat="@drawable/blank_images"
+                        app:srcCompat="@drawable/logo"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
@@ -202,10 +202,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingHorizontal="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/shape_blue"
                     android:foreground="?attr/selectableItemBackground"
+                    android:paddingHorizontal="10dp"
                     android:text="اضافة بيانات المشرف"
                     android:textColor="@color/colorWhite"
                     tools:ignore="UnusedAttribute" />
@@ -267,6 +267,7 @@
         android:src="@drawable/ic_student"
         app:backgroundTint="@color/colorGreen"
         app:fabSize="mini"
+        app:tint="@color/colorWhite"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -278,6 +279,7 @@
         android:src="@drawable/ic_wallet"
         app:backgroundTint="@color/colorGreen"
         app:fabSize="mini"
+        app:tint="@color/colorWhite"
         tools:ignore="ContentDescription" />
 
 </RelativeLayout>

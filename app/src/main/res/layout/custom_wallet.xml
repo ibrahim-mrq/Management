@@ -16,7 +16,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/customEpisode_image"
+            android:id="@+id/customWallet_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
@@ -26,7 +26,7 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/customEpisode_img_location"
+            android:id="@+id/customWallet_img_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -35,45 +35,36 @@
             tools:ignore="ContentDescription" />
 
         <LinearLayout
-            android:id="@+id/customEpisode_linear"
+            android:id="@+id/customWallet_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/customEpisode_image"
+            android:layout_alignTop="@+id/customWallet_image"
             android:layout_marginHorizontal="8dp"
-            android:layout_toStartOf="@+id/customEpisode_img_location"
-            android:layout_toEndOf="@+id/customEpisode_image"
+            android:layout_toStartOf="@+id/customWallet_img_location"
+            android:layout_toEndOf="@+id/customWallet_image"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/customEpisode_tv_name"
+                android:id="@+id/customWallet_tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text=" اسم الحلقة " />
+                tools:text=" اسم المحفظ " />
 
             <TextView
-                android:id="@+id/customEpisode_tv_admin"
+                android:id="@+id/customWallet_tv_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
-                tools:text="مشرف الحلقة" />
+                tools:text="رقم الهاتف " />
 
             <TextView
-                android:id="@+id/customEpisode_tv_center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                tools:text="@string/centers" />
-
-            <TextView
-                android:id="@+id/customEpisode_tv_branch"
+                android:id="@+id/customWallet_tv_branch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
@@ -83,38 +74,19 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/customWallet_tv_episodes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/customEpisode_linear"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/customEpisode_tv_students"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/ic_student"
-                android:gravity="center"
-                android:text="قائمة الطلية"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/customEpisode_tv_wallets"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/ic_wallet"
-                android:gravity="center"
-                android:text="قائمة المحفظين"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
-
-        </LinearLayout>
+            android:layout_below="@+id/customWallet_image"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:drawableEnd="@drawable/ic_wallet"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/list_episodes"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

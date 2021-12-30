@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/blank_images"
+                    android:src="@drawable/logo"
                     android:visibility="invisible"
                     app:civ_circle_background_color="@color/colorGreen" />
 

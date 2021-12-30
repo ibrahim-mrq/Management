@@ -71,7 +71,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterView
 
         @SuppressLint("SetTextI18n")
         private void bind(Center model) {
-            Glide.with(mContext).load(model.getLogo()).placeholder(R.drawable.blank_images).into(image);
+            Glide.with(mContext).load(model.getLogo()).placeholder(R.drawable.logo).into(image);
 
             tvName.setText(model.getName());
             tvAddress.setText(model.getAddress());

@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     private void navigationItemSelected() {
+        navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:

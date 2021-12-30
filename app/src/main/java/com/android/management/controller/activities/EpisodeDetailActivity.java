@@ -105,6 +105,12 @@ public class EpisodeDetailActivity extends AppCompatActivity {
                         .maxResultSize(1080, 1080)
                         .start(Constants.REQUEST_GALLERY_CODE)
         );
+
+        fabWallet.setOnClickListener(view -> {
+            startActivity(new Intent(this, WalletActivity.class)
+                    .putExtra(Constants.KEY, type)
+            );
+        });
     }
 
     private void initData(Episodes model) {

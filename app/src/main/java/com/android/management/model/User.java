@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.android.management.helpers.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(
@@ -22,7 +23,7 @@ import java.util.Date;
         indices = {@Index(value = {"email"}, unique = true)}
 )
 @TypeConverters({DateConverter.class})
-public class User {
+public class User implements Serializable {
 
     @PrimaryKey
     @NonNull
@@ -31,10 +32,11 @@ public class User {
     private String fullName;
     @NonNull
     private String email;
-    private long phone;
+    private String phone;
     private Date birthDate;
     private String address;
-    private int branch_id;
+    private String branch_name;
+    private String center_name;
     @NonNull
     private String password;
     @NonNull
@@ -45,8 +47,8 @@ public class User {
     }
 
     public User(int id, @NonNull String fullName, @NonNull String email,
-                long phone, Date birthDate, String address,
-                int branch_id, @NonNull String password,
+                String phone, Date birthDate, String address,
+                String branch_name, String center_name, @NonNull String password,
                 @NonNull Validity validity, String photo) {
         this.id = id;
         this.fullName = fullName;
@@ -54,7 +56,8 @@ public class User {
         this.phone = phone;
         this.birthDate = birthDate;
         this.address = address;
-        this.branch_id = branch_id;
+        this.branch_name = branch_name;
+        this.center_name = center_name;
         this.password = password;
         this.validity = validity;
         this.photo = photo;
@@ -86,11 +89,11 @@ public class User {
         this.email = email;
     }
 
-    public long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -110,12 +113,20 @@ public class User {
         this.address = address;
     }
 
-    public int getBranch_id() {
-        return branch_id;
+    public String getBranch_name() {
+        return branch_name;
     }
 
-    public void setBranch_id(int branch_id) {
-        this.branch_id = branch_id;
+    public void setBranch_name(String branch_name) {
+        this.branch_name = branch_name;
+    }
+
+    public String getCenter_name() {
+        return center_name;
+    }
+
+    public void setCenter_name(String center_name) {
+        this.center_name = center_name;
     }
 
     @NonNull

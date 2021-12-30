@@ -33,5 +33,6 @@
     <string name="logout_successfully">تم تسجيل خروجك بنجاح</string>
     <string name="save">حفظ</string>
     <string name="desc">الوصف</string>
+    <string name="list_episodes">قائمة الحلقات</string>
 
 </resources>
