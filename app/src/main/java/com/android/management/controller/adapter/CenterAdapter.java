@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.management.R;
-import com.android.management.controller.activities.CenterActivity;
+import com.android.management.controller.activities.CenterDetailActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
 import com.bumptech.glide.Glide;
@@ -78,7 +78,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterView
             tvBranch.setText(model.getBra_name());
 
             itemView.setOnClickListener(view -> {
-                mContext.startActivity(new Intent(mContext, CenterActivity.class)
+                mContext.startActivity(new Intent(mContext, CenterDetailActivity.class)
                         .putExtra(Constants.KEY, Constants.TYPE_EDIT)
                         .putExtra(Constants.TYPE_MODEL, model)
                 );

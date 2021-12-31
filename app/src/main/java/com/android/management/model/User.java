@@ -36,6 +36,7 @@ public class User implements Serializable {
     private Date birthDate;
     private String address;
     private String branch_name;
+    private String episode_name;
     private String center_name;
     @NonNull
     private String password;
@@ -48,7 +49,7 @@ public class User implements Serializable {
 
     public User(int id, @NonNull String fullName, @NonNull String email,
                 String phone, Date birthDate, String address,
-                String branch_name, String center_name, @NonNull String password,
+                String branch_name, String center_name,String episode_name, @NonNull String password,
                 @NonNull Validity validity, String photo) {
         this.id = id;
         this.fullName = fullName;
@@ -57,6 +58,7 @@ public class User implements Serializable {
         this.birthDate = birthDate;
         this.address = address;
         this.branch_name = branch_name;
+        this.episode_name = episode_name;
         this.center_name = center_name;
         this.password = password;
         this.validity = validity;
@@ -119,6 +121,14 @@ public class User implements Serializable {
 
     public void setBranch_name(String branch_name) {
         this.branch_name = branch_name;
+    }
+
+    public String getEpisode_name() {
+        return episode_name;
+    }
+
+    public void setEpisode_name(String episode_name) {
+        this.episode_name = episode_name;
     }
 
     public String getCenter_name() {

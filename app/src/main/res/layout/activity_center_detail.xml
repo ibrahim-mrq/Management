@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:theme="@style/MaterialTheme"
-    tools:context=".controller.activities.CenterActivity">
+    tools:context=".controller.activities.CenterDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

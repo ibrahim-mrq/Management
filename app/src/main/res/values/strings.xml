@@ -34,5 +34,7 @@
     <string name="save">حفظ</string>
     <string name="desc">الوصف</string>
     <string name="list_episodes">قائمة الحلقات</string>
+    <string name="rate">تقييم الطالب</string>
+    <string name="task">المهام</string>
 
 </resources>

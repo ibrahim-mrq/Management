@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.android.management.R;
+import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
@@ -25,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class EpisodeDetailActivity extends AppCompatActivity {
+public class EpisodeDetailActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private TextView tvTool;
@@ -162,4 +163,5 @@ public class EpisodeDetailActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 }

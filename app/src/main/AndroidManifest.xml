@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".controller.activities.WalletDetailActivity"></activity>
+        <activity android:name=".controller.activities.StudentDetailActivity"></activity>
+        <activity android:name=".controller.activities.StudentActivity" />
+        <activity android:name=".controller.activities.WalletDetailActivity" />
         <activity android:name=".controller.activities.WalletActivity" />
         <activity
             android:name=".controller.activities.SplashActivity"
@@ -39,7 +41,7 @@
             android:name=".controller.activities.MainActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".controller.activities.CenterActivity"
+            android:name=".controller.activities.CenterDetailActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".controller.activities.EpisodesActivity"

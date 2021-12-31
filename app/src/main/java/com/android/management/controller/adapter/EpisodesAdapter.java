@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.management.R;
-import com.android.management.controller.activities.CenterActivity;
 import com.android.management.controller.activities.EpisodeDetailActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Episodes;

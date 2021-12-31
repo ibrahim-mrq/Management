@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.management.R;
-import com.android.management.controller.activities.CenterActivity;
+import com.android.management.controller.activities.CenterDetailActivity;
 import com.android.management.controller.activities.MainActivity;
 import com.android.management.controller.adapter.CenterAdapter;
 import com.android.management.helpers.Constants;
@@ -64,7 +63,7 @@ public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRef
         initCenter();
 
         fab.setOnClickListener(view -> {
-            startActivity(new Intent(requireActivity(), CenterActivity.class)
+            startActivity(new Intent(requireActivity(), CenterDetailActivity.class)
                     .putExtra(Constants.KEY, Constants.TYPE_ADD)
             );
         });
