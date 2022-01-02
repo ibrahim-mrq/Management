@@ -2,9 +2,11 @@ package com.android.management.databeas.other;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.android.management.databeas.DAO.UserDAO;
 import com.android.management.model.User;
@@ -22,17 +24,29 @@ public abstract class MyDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static MyDatabase getDatabase(final Context context) {
+    public static MyDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             synchronized (MyDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            MyDatabase.class, "management_database")
+                            MyDatabase.class, "management_db")
+                            .addCallback(callback)
+                            .allowMainThreadQueries()
                             .build();
                 }
             }
         }
         return INSTANCE;
     }
+
+    private static RoomDatabase.Callback callback = new Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            databaseWriteExecutor.execute(() -> {
+
+            });
+        }
+    };
 
 }

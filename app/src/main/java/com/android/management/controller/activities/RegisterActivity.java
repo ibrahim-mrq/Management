@@ -18,6 +18,10 @@ import com.android.management.helpers.BaseActivity;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,6 +53,8 @@ public class RegisterActivity extends BaseActivity {
     private TextInputEditText registerEtConfPassword;
     private AppCompatButton registerBtn;
     private SpinKitView progressBar;
+
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,20 @@ public class RegisterActivity extends BaseActivity {
 
         registerBtn.setOnClickListener(view -> register());
 
+        registerTvDate.setOnClickListener(view -> {
+            DatePickerDialog.newInstance((view1, year, monthOfYear, dayOfMonth) -> {
+                registerEtDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                setCalendar(year, monthOfYear, dayOfMonth);
+            }, Calendar.getInstance());
+        });
+
+    }
+
+    private void setCalendar(int year, int month, int day) {
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
     }
 
     private void register() {
@@ -130,7 +150,7 @@ public class RegisterActivity extends BaseActivity {
         registerEtName.setEnabled(enable);
         registerEtEmail.setEnabled(enable);
         registerEtPhone.setEnabled(enable);
-        registerEtDate.setEnabled(enable);
+//        registerEtDate.setEnabled(enable);
         registerTvBranch.setEnabled(enable);
         registerEtBranch.setEnabled(enable);
         registerEtAddress.setEnabled(enable);

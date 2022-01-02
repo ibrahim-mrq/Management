@@ -1,5 +1,6 @@
 package com.android.management.databeas.DAO;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,10 +15,10 @@ import java.util.List;
 public interface UserDAO {
 
     @Insert
-    boolean insertUser(User user);
+    void insertUser(User... user);
 
     @Update
-    boolean updateUser(User user);
+    void updateUser(User user);
 
     @Delete
     boolean deleteUser(User user);
@@ -35,7 +36,7 @@ public interface UserDAO {
     List<User> getWallets();
 
     @Query("select * from User where validity = 3 order by fullName asc ")
-    List<User> getStudents();
+    LiveData<List<User>> getStudents();
 
     @Query("select * from User where fullName like '%' ||:fullName ||'%'")
     List<User> getStudentsByName(String fullName);
@@ -48,5 +49,9 @@ public interface UserDAO {
 
     @Query("select * from User where id =:id AND validity = 3 ")
     User studentsById(int id);
+
+    // مجموع الارقام الي بالعمود ل مستخدم
+    @Query("select sum(id) from User where id = :id ")
+    double getRate(int id);
 
 }
