@@ -80,7 +80,7 @@ public class WalletActivity extends AppCompatActivity implements SwipeRefreshLay
         for (int i = 0; i < 10; i++) {
             list.add(new User(i, "a" + i, "admin", "center_name",
                     new Date(), "address", "مركز التحفيظ",
-                    "center", "pass", Validity.Admin, imagePath));
+                    "center", "episode", "pass", Validity.Admin, imagePath));
         }
         progressBar.setVisibility(View.GONE);
         swipeToRefresh.setRefreshing(false);

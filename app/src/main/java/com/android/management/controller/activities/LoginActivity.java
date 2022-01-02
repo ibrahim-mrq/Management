@@ -67,7 +67,7 @@ public class LoginActivity extends BaseActivity {
         if (isNotEmpty(loginEtId, loginTvId)
                 && isNotEmpty(loginEtPassword, loginTvPassword)
         ) {
-//            enableElements(false);
+            enableElements(false);
             startActivity(new Intent(this, MainActivity.class));
         }
 

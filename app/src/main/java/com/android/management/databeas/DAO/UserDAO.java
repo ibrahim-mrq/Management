@@ -14,16 +14,16 @@ import java.util.List;
 public interface UserDAO {
 
     @Insert
-    void insertUser(User user);
+    boolean insertUser(User user);
 
     @Update
-    void updateUser(User user);
+    boolean updateUser(User user);
 
     @Delete
-    void deleteUser(User user);
+    boolean deleteUser(User user);
 
     @Query("delete from User where id = :id")
-    void deleteUserById(int id);
+    boolean deleteUserById(int id);
 
     @Query("select * from User where validity = 0 order by fullName asc ")
     List<User> getManagers();
