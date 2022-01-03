@@ -2,27 +2,37 @@ package com.android.management.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.management.R;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
+import com.android.management.model.User;
+import com.android.management.model.Validity;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.orhanobut.hawk.Hawk;
+
+import java.util.ArrayList;
 
 public class CenterDetailActivity extends BaseActivity {
 
@@ -48,6 +58,7 @@ public class CenterDetailActivity extends BaseActivity {
 
     private String type = "";
     private String path = "";
+    private ViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,7 @@ public class CenterDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
         type = getIntent().getStringExtra(Constants.KEY);
 
         toolbar = findViewById(R.id.toolbar);
@@ -87,10 +99,12 @@ public class CenterDetailActivity extends BaseActivity {
             fab.setVisibility(View.GONE);
             centerImgDelete.setVisibility(View.GONE);
             tvTool.setText("اضافة مركز جديد");
+            btn_save.setOnClickListener(view -> addCenter());
         } else {
             tvTool.setText("تعديل بيانات المركز");
             Center model = (Center) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
+            btn_save.setOnClickListener(view -> editCenter());
         }
 
         centerImgCamera.setOnClickListener(v ->
@@ -104,6 +118,10 @@ public class CenterDetailActivity extends BaseActivity {
         fab.setOnClickListener(v ->
                 startActivity(new Intent(this, EpisodesActivity.class)));
 
+        ArrayAdapter<String> listManager = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getManagersName());
+        centerEtAdmin.setAdapter(listManager);
+
     }
 
     private void initData(Center model) {
@@ -113,6 +131,7 @@ public class CenterDetailActivity extends BaseActivity {
         centerEtCount.setText(model.getNumberEpisodes() + "");
         centerEtBranch.setText(model.getBra_name());
         centerEtAdmin.setText(model.getManager_name());
+        path = model.getLogo();
     }
 
     private void addCenter() {
@@ -122,9 +141,27 @@ public class CenterDetailActivity extends BaseActivity {
                 && isNotEmpty(centerEtBranch, centerTvBranch)
                 && isNotEmpty(centerEtAdmin, centerTvAdmin)
                 && isNotEmpty(centerEtAdmin, centerTvAdmin)
-                && isNotEmpty(path)
+                && isImageNotEmpty(path)
         ) {
             enableElements(false);
+            Center model = new Center(
+                    centerEtName.getText().toString().trim(),
+                    centerEtBranch.getText().toString().trim(),
+                    path,
+                    centerEtAddress.getText().toString().trim(),
+                    centerEtCount.getText().toString().trim(),
+                    centerEtAdmin.getText().toString().trim()
+            );
+            long isInsert = viewModel.insertCenter(model);
+            new Handler().postDelayed(() -> {
+                if (isInsert > -1) {
+                    finish();
+                } else {
+                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+                }
+                enableElements(true);
+            }, 1000);
+
         }
     }
 
@@ -135,7 +172,7 @@ public class CenterDetailActivity extends BaseActivity {
                 && isNotEmpty(centerEtBranch, centerTvBranch)
                 && isNotEmpty(centerEtAdmin, centerTvAdmin)
                 && isNotEmpty(centerEtAdmin, centerTvAdmin)
-                && isNotEmpty(path)
+                && isImageNotEmpty(path)
         ) {
             enableElements(false);
         }

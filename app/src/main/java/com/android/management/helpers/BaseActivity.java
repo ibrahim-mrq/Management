@@ -31,6 +31,28 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public Boolean isExistId(TextInputLayout textInputLayout, Boolean isExist) {
+        if (isExist) {
+            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setError(getString(R.string.isExist_id));
+            return false;
+        } else {
+            textInputLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+
+    public Boolean isExistEmail(TextInputLayout textInputLayout, Boolean isExist) {
+        if (isExist) {
+            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setError(getString(R.string.isExist_email));
+            return false;
+        } else {
+            textInputLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+
     public Boolean isNotEmpty(AutoCompleteTextView editText, TextInputLayout textInputLayout) {
         if (editText.getText().toString().trim().isEmpty()) {
             textInputLayout.setErrorEnabled(true);
@@ -45,6 +67,14 @@ public class BaseActivity extends AppCompatActivity {
     public Boolean isNotEmpty(String text) {
         if (text.trim().isEmpty()) {
             Toast.makeText(this, getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public Boolean isImageNotEmpty(String text) {
+        if (text.trim().isEmpty()) {
+            Toast.makeText(this, getString(R.string.empty_image_path), Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;

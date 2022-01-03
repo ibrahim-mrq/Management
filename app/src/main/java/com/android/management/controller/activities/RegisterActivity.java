@@ -158,6 +158,8 @@ public class RegisterActivity extends BaseActivity {
                 && isNotEmpty(registerEtPassword, registerTvPassword)
                 && isNotEmpty(registerEtConfPassword, registerTvConfPassword)
                 && isValidEmail(registerEtEmail, registerTvEmail)
+                && isExistEmail(registerTvEmail, viewModel.isUserEmailExist(registerEtEmail.getText().toString().trim()))
+                && isExistId(registerTvId, viewModel.isUserIdExist(registerEtId.getText().toString().trim()))
                 && isConfirmPassword(registerEtPassword, registerTvPassword,
                 registerEtConfPassword, registerTvConfPassword)
         ) {
@@ -177,17 +179,17 @@ public class RegisterActivity extends BaseActivity {
                     path
             );
             long isInsert = viewModel.insertUser(user);
-            if (isInsert > -1) {
-                Hawk.put(Constants.IS_LOGIN, true);
-                Hawk.put(Constants.USER, user);
-                new Handler().postDelayed(() -> {
+            new Handler().postDelayed(() -> {
+                if (isInsert > -1) {
+                    Hawk.put(Constants.IS_LOGIN, true);
+                    Hawk.put(Constants.USER, user);
                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     finish();
-                }, 1000);
-            } else {
-                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
-            }
-            enableElements(true);
+                } else {
+                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+                }
+                enableElements(true);
+            }, 1000);
         }
 
     }

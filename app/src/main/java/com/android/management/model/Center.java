@@ -3,52 +3,42 @@ package com.android.management.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(foreignKeys = {
-        @ForeignKey(
-                entity = Branch.class,
-                parentColumns = {"name"},
-                childColumns = {"bra_name"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE),
-        @ForeignKey(
-                entity = User.class,
-                parentColumns = {"id"},
-                childColumns = {"manager_id"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE)
-})
+@Entity(indices = {@Index(value = {"name"}, unique = true)})
 public class Center implements Serializable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
     private String bra_name;
     private String logo;
     private String address;
-    private long lat;
-    private long lon;
-    @ColumnInfo(name = "number_of_episodes")
-    private int number_episodes;
+    //    private long lat;
+//    private long lon;
+    private String numberEpisodes;
     private String manager_name;
 
     public Center() {
     }
 
-    public Center(int id, String name, String bra_name, String logo,
-                  String address, long lat, long lon,
-                  int number_episodes, String manager_name) {
-        this.id = id;
+    public Center(
+//            int id,
+            String name, String bra_name, String logo,
+                  String address,
+//                  long lat, long lon,
+            String numberEpisodes, String manager_name) {
+//        this.id = id;
         this.name = name;
         this.bra_name = bra_name;
         this.logo = logo;
         this.address = address;
-        this.lat = lat;
-        this.lon = lon;
-        this.number_episodes = number_episodes;
+//        this.lat = lat;
+//        this.lon = lon;
+        this.numberEpisodes = numberEpisodes;
         this.manager_name = manager_name;
     }
 
@@ -91,29 +81,30 @@ public class Center implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+//
+//    public long getLat() {
+//        return lat;
+//    }
+//
+//    public void setLat(long lat) {
+//        this.lat = lat;
+//    }
+//
+//    public long getLon() {
+//        return lon;
+//    }
+//
+//    public void setLon(long lon) {
+//        this.lon = lon;
+//    }
 
-    public long getLat() {
-        return lat;
+
+    public String getNumberEpisodes() {
+        return numberEpisodes;
     }
 
-    public void setLat(long lat) {
-        this.lat = lat;
-    }
-
-    public long getLon() {
-        return lon;
-    }
-
-    public void setLon(long lon) {
-        this.lon = lon;
-    }
-
-    public int getNumberEpisodes() {
-        return number_episodes;
-    }
-
-    public void setNumberEpisodes(int number_episodes) {
-        this.number_episodes = number_episodes;
+    public void setNumberEpisodes(String numberEpisodes) {
+        this.numberEpisodes = numberEpisodes;
     }
 
     public String getManager_name() {

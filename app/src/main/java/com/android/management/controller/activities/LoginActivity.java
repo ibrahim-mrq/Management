@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity {
 
     private void login() {
         if (isNotEmpty(loginEtId, loginTvId)
+                && isExistId(loginTvPassword, viewModel.isUserIdExist(loginEtId.getText().toString().trim()))
                 && isNotEmpty(loginEtPassword, loginTvPassword)
         ) {
             enableElements(false);
@@ -85,18 +86,17 @@ public class LoginActivity extends BaseActivity {
                     loginEtId.getText().toString().trim(),
                     loginEtPassword.getText().toString().trim()
             );
-            if (user != null) {
-                Hawk.put(Constants.IS_LOGIN, true);
-                Hawk.put(Constants.USER, user);
-                new Handler().postDelayed(() -> {
+            new Handler().postDelayed(() -> {
+                if (user != null) {
+                    Hawk.put(Constants.IS_LOGIN, true);
+                    Hawk.put(Constants.USER, user);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
-                }, 1000);
+                } else {
+                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+                }
                 enableElements(true);
-            } else {
-                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
-                enableElements(true);
-            }
+            }, 1000);
         }
 
     }

@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -16,11 +20,13 @@ import com.android.management.R;
 import com.android.management.controller.activities.CenterDetailActivity;
 import com.android.management.controller.activities.MainActivity;
 import com.android.management.controller.adapter.CenterAdapter;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -28,9 +34,11 @@ public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private FloatingActionButton fab;
+    private TextView tv_empty;
 
     private ArrayList<Center> list = new ArrayList<>();
     private CenterAdapter adapter;
+    private ViewModel viewModel;
 
     public CenterFragment() {
         // Required empty public constructor
@@ -48,12 +56,15 @@ public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     private void initView(View root) {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+
         MainActivity.tv_toolbar.setText(getString(R.string.centers));
 
         swipeToRefresh = root.findViewById(R.id.swipe_to_refresh);
         recyclerView = root.findViewById(R.id.recycler_view);
         progressBar = root.findViewById(R.id.progressBar);
         fab = root.findViewById(R.id.fab);
+        tv_empty = root.findViewById(R.id.textView_empty);
         swipeToRefresh.setOnRefreshListener(this);
 
         adapter = new CenterAdapter(list, requireActivity());
@@ -72,15 +83,19 @@ public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void initCenter() {
         progressBar.setVisibility(View.VISIBLE);
-        list.clear();
-        String imagePath = "android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.logo;
-        for (int i = 0; i < 10; i++) {
-            list.add(new Center(0, "a " + i, "gaza", imagePath,
-                    "gaza", 12, 15, 10, "محمد علي"));
-        }
-        progressBar.setVisibility(View.GONE);
-        swipeToRefresh.setRefreshing(false);
-        adapter.notifyDataSetChanged();
+        viewModel.getAllCenter().observe(requireActivity(), centers -> {
+            progressBar.setVisibility(View.GONE);
+            swipeToRefresh.setRefreshing(false);
+            if (centers.isEmpty()) {
+                tv_empty.setVisibility(View.VISIBLE);
+                Toast.makeText(requireActivity(), "empty", Toast.LENGTH_SHORT).show();
+            } else {
+                tv_empty.setVisibility(View.GONE);
+                list.clear();
+                list.addAll(centers);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
