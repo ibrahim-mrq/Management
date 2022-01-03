@@ -20,6 +20,7 @@
     <string name="empty_field">لا يمكن ترك هذا الحقل فارغا</string>
     <string name="empty_fields">بعض الحقول فارغة</string>
     <string name="password_not_match">كلمة المرور غير متطابقة</string>
+    <string name="invalid_email">يرجى إدخال البريد الإلكتروني الصحيح</string>
 
     <string name="home">الرئيسية</string>
     <string name="centers">مراكز التحفيظ</string>

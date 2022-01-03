@@ -2,22 +2,31 @@ package com.android.management.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.management.R;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
+import com.android.management.helpers.Constants;
+import com.android.management.model.User;
+import com.android.management.model.Validity;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.orhanobut.hawk.Hawk;
 
 public class LoginActivity extends BaseActivity {
 
@@ -31,6 +40,8 @@ public class LoginActivity extends BaseActivity {
     private SpinKitView progressBar;
     private TextView loginTvSignup;
 
+    ViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +51,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+
         toolbar = findViewById(R.id.toolbar);
         tvTool = findViewById(R.id.tv_tool);
         loginTvId = findViewById(R.id.login_tv_id);
@@ -68,7 +81,22 @@ public class LoginActivity extends BaseActivity {
                 && isNotEmpty(loginEtPassword, loginTvPassword)
         ) {
             enableElements(false);
-            startActivity(new Intent(this, MainActivity.class));
+            User user = viewModel.login(
+                    loginEtId.getText().toString().trim(),
+                    loginEtPassword.getText().toString().trim()
+            );
+            if (user != null) {
+                Hawk.put(Constants.IS_LOGIN, true);
+                Hawk.put(Constants.USER, user);
+                new Handler().postDelayed(() -> {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }, 1000);
+                enableElements(true);
+            } else {
+                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+                enableElements(true);
+            }
         }
 
     }

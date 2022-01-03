@@ -11,8 +11,8 @@ import com.android.management.helpers.DateConverter;
 @Entity(foreignKeys = {
         @ForeignKey(
                 entity = User.class,
-                parentColumns = {"branch_id"},
-                childColumns = {"id"},
+                parentColumns = {"branch_name"},
+                childColumns = {"name"},
                 onUpdate = ForeignKey.CASCADE,
                 onDelete = ForeignKey.CASCADE)}
 )
@@ -20,9 +20,7 @@ import com.android.management.helpers.DateConverter;
 public class Branch {
 
     @PrimaryKey
-    @NonNull
     private int id;
-    @NonNull
     private String name;
 
     public Branch() {

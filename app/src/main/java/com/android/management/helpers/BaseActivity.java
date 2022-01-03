@@ -57,7 +57,7 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         } else {
             textInputLayout.setErrorEnabled(true);
-            textInputLayout.setError(getString(R.string.empty_field));
+            textInputLayout.setError(getString(R.string.invalid_email));
             return false;
         }
     }

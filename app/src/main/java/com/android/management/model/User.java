@@ -1,8 +1,10 @@
 package com.android.management.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -13,45 +15,42 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(
-        foreignKeys = {@ForeignKey(
-                entity = Branch.class,
-                parentColumns = {"id"},
-                childColumns = {"branch_id"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE
-        )},
-        indices = {@Index(value = {"email"}, unique = true)}
+//        foreignKeys = {@ForeignKey(
+//                entity = Branch.class,
+//                parentColumns = {"name"},
+//                childColumns = {"branch_name"},
+//                onUpdate = ForeignKey.CASCADE,
+//                onDelete = ForeignKey.CASCADE
+//        )},
+        indices = {@Index(value = {"p_id", "email"}, unique = true)}
 )
 @TypeConverters({DateConverter.class})
 public class User implements Serializable {
 
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
     private int id;
-    @NonNull
+    private String p_id;
     private String fullName;
-    @NonNull
     private String email;
     private String phone;
+    //@Ignore // تجاهل
     private Date birthDate;
     private String address;
     private String branch_name;
     private String episode_name;
     private String center_name;
-    @NonNull
     private String password;
-    @NonNull
     private Validity validity;
     private String photo;
 
     public User() {
     }
 
-    public User(int id, @NonNull String fullName, @NonNull String email,
+    public User(String p_id, @NonNull String fullName, @NonNull String email,
                 String phone, Date birthDate, String address,
-                String branch_name, String center_name,String episode_name, @NonNull String password,
+                String branch_name, String center_name, String episode_name, @NonNull String password,
                 @NonNull Validity validity, String photo) {
-        this.id = id;
+        this.p_id = p_id;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
@@ -71,6 +70,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getP_id() {
+        return p_id;
+    }
+
+    public void setP_id(String p_id) {
+        this.p_id = p_id;
     }
 
     @NonNull

@@ -78,7 +78,7 @@ public class WalletActivity extends AppCompatActivity implements SwipeRefreshLay
         list.clear();
         String imagePath = "android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.logo;
         for (int i = 0; i < 10; i++) {
-            list.add(new User(i, "a" + i, "admin", "center_name",
+            list.add(new User( "asd", "a" + i, "admin", "center_name",
                     new Date(), "address", "مركز التحفيظ",
                     "center", "episode", "pass", Validity.Admin, imagePath));
         }

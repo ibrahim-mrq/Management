@@ -2,24 +2,38 @@ package com.android.management.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.management.R;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
+import com.android.management.helpers.Constants;
+import com.android.management.model.User;
+import com.android.management.model.Validity;
+import com.bumptech.glide.Glide;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.orhanobut.hawk.Hawk;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -53,8 +67,10 @@ public class RegisterActivity extends BaseActivity {
     private TextInputEditText registerEtConfPassword;
     private AppCompatButton registerBtn;
     private SpinKitView progressBar;
+    private String path = "";
 
     Calendar calendar;
+    ViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +82,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initView() {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+
         toolbar = findViewById(R.id.toolbar);
         tvTool = findViewById(R.id.tv_tool);
         imgBackTool = findViewById(R.id.img_back_tool);
@@ -98,13 +116,28 @@ public class RegisterActivity extends BaseActivity {
 
         registerBtn.setOnClickListener(view -> register());
 
-        registerTvDate.setOnClickListener(view -> {
-            DatePickerDialog.newInstance((view1, year, monthOfYear, dayOfMonth) -> {
+        registerImgCamera.setOnClickListener(v ->
+                ImagePicker.Companion.with(this)
+                        .crop()
+                        .compress(1024)
+                        .maxResultSize(1080, 1080)
+                        .start(Constants.REQUEST_GALLERY_CODE)
+        );
+
+        registerEtDate.setOnClickListener(view -> {
+            DatePickerDialog dialog = DatePickerDialog.newInstance((view1, year, monthOfYear, dayOfMonth) -> {
                 registerEtDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
                 setCalendar(year, monthOfYear, dayOfMonth);
             }, Calendar.getInstance());
+            dialog.show(getSupportFragmentManager(), null);
         });
 
+        ArrayList<String> list = new ArrayList<>();
+        list.add("hi");
+        list.add("this");
+        list.add("hello");
+        ArrayAdapter<String> branch = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        registerEtBranch.setAdapter(branch);
     }
 
     private void setCalendar(int year, int month, int day) {
@@ -116,21 +149,45 @@ public class RegisterActivity extends BaseActivity {
 
     private void register() {
         if (isNotEmpty(registerEtName, registerTvName)
+                && isNotEmpty(registerEtId, registerTvId)
                 && isNotEmpty(registerEtEmail, registerTvEmail)
                 && isNotEmpty(registerEtPhone, registerTvPhone)
                 && isNotEmpty(registerEtDate, registerTvDate)
-                && isNotEmpty(registerEtBranch, registerTvBranch)
                 && isNotEmpty(registerEtAddress, registerTvAddress)
-                && isNotEmpty(registerEtId, registerTvId)
+                && isNotEmpty(registerEtBranch, registerTvBranch)
                 && isNotEmpty(registerEtPassword, registerTvPassword)
                 && isNotEmpty(registerEtConfPassword, registerTvConfPassword)
                 && isValidEmail(registerEtEmail, registerTvEmail)
                 && isConfirmPassword(registerEtPassword, registerTvPassword,
                 registerEtConfPassword, registerTvConfPassword)
         ) {
-//            enableElements(false);
-            startActivity(new Intent(this, MainActivity.class));
-
+            enableElements(false);
+            User user = new User(
+                    registerEtId.getText().toString().trim(),
+                    registerEtName.getText().toString().trim(),
+                    registerEtEmail.getText().toString().trim(),
+                    registerEtPhone.getText().toString().trim(),
+                    calendar.getTime(),
+                    registerEtAddress.getText().toString().trim(),
+                    registerEtBranch.getText().toString().trim(),
+                    "",
+                    "",
+                    registerEtPassword.getText().toString().trim(),
+                    Validity.Manager,
+                    path
+            );
+            long isInsert = viewModel.insertUser(user);
+            if (isInsert > -1) {
+                Hawk.put(Constants.IS_LOGIN, true);
+                Hawk.put(Constants.USER, user);
+                new Handler().postDelayed(() -> {
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                    finish();
+                }, 1000);
+            } else {
+                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+            }
+            enableElements(true);
         }
 
     }
@@ -158,6 +215,18 @@ public class RegisterActivity extends BaseActivity {
         registerEtPassword.setEnabled(enable);
         registerEtConfPassword.setEnabled(enable);
         imgBackTool.setEnabled(enable);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == Constants.REQUEST_GALLERY_CODE) {
+                Glide.with(this).load(ImagePicker.Companion.getFilePath(data)).into(registerImg);
+                path = ImagePicker.Companion.getFilePath(data);
+                Log.e("response -> path", "path = " + path);
+            }
+        }
     }
 
     @Override

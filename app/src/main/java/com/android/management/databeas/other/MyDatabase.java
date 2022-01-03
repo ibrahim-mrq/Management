@@ -9,12 +9,14 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.android.management.databeas.DAO.UserDAO;
+import com.android.management.helpers.MyApplication;
+import com.android.management.model.Branch;
 import com.android.management.model.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class}, version = 2, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
 
     public abstract UserDAO userDAO();
@@ -32,6 +34,7 @@ public abstract class MyDatabase extends RoomDatabase {
                             MyDatabase.class, "management_db")
                             .addCallback(callback)
                             .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
@@ -44,7 +47,6 @@ public abstract class MyDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             databaseWriteExecutor.execute(() -> {
-
             });
         }
     };

@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.android.management.R;
 import com.android.management.controller.fragments.CenterFragment;
 import com.android.management.controller.fragments.HomeFragment;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.Constants;
 import com.google.android.material.navigation.NavigationView;
 import com.orhanobut.hawk.Hawk;
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     public static TextView tv_toolbar;
 
+    ViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void initView(Bundle savedInstanceState) {
         context = MainActivity.this;
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
 
         drawer = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
@@ -69,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         navigationItemSelected();
+
+        try {
+            Log.e("response", "size = " + viewModel.getManagers().getValue().size());
+        }catch (Exception e){}
+
 
     }
 

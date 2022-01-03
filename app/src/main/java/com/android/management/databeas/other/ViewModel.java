@@ -19,20 +19,20 @@ public class ViewModel extends AndroidViewModel {
         repository = new Repository(application);
     }
 
-    public void insertUser(User... users) {
-        repository.insertUser(users);
+    public long insertUser(User users) {
+        return repository.insertUser(users);
     }
 
-    public User register(User users) {
-        return repository.register(users);
-    }
-
-    public User login(String id, String password) {
-        return repository.login(id, password);
+    public User login(String p_id, String password) {
+        return repository.login(p_id, password);
     }
 
     public void updateUser(User users) {
         repository.updateUser(users);
+    }
+
+    public LiveData<List<User>> getManagers() {
+        return repository.getManagers();
     }
 
     public LiveData<List<User>> getAllUser() {
