@@ -98,7 +98,7 @@ public class CenterDetailActivity extends BaseActivity {
             tvTool.setText("تعديل بيانات المركز");
             Center model = (Center) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
-            btn_save.setOnClickListener(view -> editCenter());
+            btn_save.setOnClickListener(view -> editCenter(model));
             centerImgDelete.setOnClickListener(view -> dialogDelete(this, model));
         }
 
@@ -169,7 +169,7 @@ public class CenterDetailActivity extends BaseActivity {
         }
     }
 
-    private void editCenter() {
+    private void editCenter(Center center) {
         if (isNotEmpty(centerEtName, centerTvName)
                 && isNotEmpty(centerEtAddress, centerTvAddress)
                 && isNotEmpty(centerEtCount, centerTvCount)
@@ -180,6 +180,7 @@ public class CenterDetailActivity extends BaseActivity {
         ) {
             enableElements(false);
             Center model = new Center(
+                    center.getId(),
                     centerEtName.getText().toString().trim(),
                     centerEtBranch.getText().toString().trim(),
                     path,
@@ -187,7 +188,7 @@ public class CenterDetailActivity extends BaseActivity {
                     centerEtCount.getText().toString().trim(),
                     centerEtAdmin.getText().toString().trim()
             );
-            long isUpdate = viewModel.updateCenter(model);
+            int isUpdate = viewModel.updateCenter(model);
             Log.e("response", "isUpdate = " + isUpdate);
             new Handler().postDelayed(() -> {
                 if (isUpdate > -1) {

@@ -18,8 +18,8 @@ public interface CenterDAO {
     @Insert()
     long insertCenter(Center model);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long updateCenter(Center model);
+    @Update()
+    int updateCenter(Center model);
 
     @Delete
     int deleteCenter(Center model);

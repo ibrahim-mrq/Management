@@ -115,7 +115,7 @@ public class EpisodeDetailActivity extends BaseActivity {
             tvTool.setText("تعديل بيانات الحلقة");
             Episodes model = (Episodes) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
-            btn_save.setOnClickListener(view -> editEpisode());
+            btn_save.setOnClickListener(view -> editEpisode(model));
             imgDelete.setOnClickListener(view -> dialogDelete(this, model));
             fabStudent.setOnClickListener(view -> {
                 startActivity(new Intent(this, StudentActivity.class)
@@ -199,7 +199,7 @@ public class EpisodeDetailActivity extends BaseActivity {
         }
     }
 
-    private void editEpisode() {
+    private void editEpisode(Episodes episodes) {
         if (isNotEmpty(etName, tvName)
                 && isNotEmpty(etAddress, tvAddress)
                 && isNotEmpty(etCount, tvCount)
@@ -211,6 +211,7 @@ public class EpisodeDetailActivity extends BaseActivity {
         ) {
             enableElements(false);
             Episodes model = new Episodes(
+                    episodes.getId(),
                     etName.getText().toString().trim(),
                     etAdmin.getText().toString().trim(),
                     etCenter.getText().toString().trim(),
@@ -220,7 +221,7 @@ public class EpisodeDetailActivity extends BaseActivity {
                     etAddress.getText().toString().trim(),
                     path
             );
-            long isInsert = viewModel.updateEpisodes(model);
+            int isInsert = viewModel.updateEpisodes(model);
             new Handler().postDelayed(() -> {
                 if (isInsert > -1) {
                     finish();

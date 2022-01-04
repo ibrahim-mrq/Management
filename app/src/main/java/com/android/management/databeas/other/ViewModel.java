@@ -28,7 +28,7 @@ public class ViewModel extends AndroidViewModel {
         return repository.insertUser(users);
     }
 
-    public long updateUser(User users) {
+    public int updateUser(User users) {
         return repository.updateUser(users);
     }
 
@@ -68,6 +68,10 @@ public class ViewModel extends AndroidViewModel {
         return repository.getAdminsName();
     }
 
+    public List<String> getAllWalletsName() {
+        return repository.getAllWalletsName();
+    }
+
     public LiveData<List<User>> getStudents() {
         return repository.getStudents();
     }
@@ -94,7 +98,7 @@ public class ViewModel extends AndroidViewModel {
         return repository.insertCenter(model);
     }
 
-    public long updateCenter(Center model) {
+    public int updateCenter(Center model) {
         return repository.updateCenter(model);
     }
 
@@ -116,7 +120,7 @@ public class ViewModel extends AndroidViewModel {
         return repository.insertBranch(model);
     }
 
-    public long updateBranch(Branch model) {
+    public int updateBranch(Branch model) {
         return repository.updateBranch(model);
     }
 
@@ -138,7 +142,7 @@ public class ViewModel extends AndroidViewModel {
         return repository.insertEpisodes(model);
     }
 
-    public long updateEpisodes(Episodes model) {
+    public int updateEpisodes(Episodes model) {
         return repository.updateEpisodes(model);
     }
 

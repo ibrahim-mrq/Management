@@ -23,6 +23,17 @@ public class Center implements Serializable {
     public Center() {
     }
 
+    public Center(int id, String name, String bra_name, String logo, String address,
+                  String numberEpisodes, String manager_name) {
+        this.id = id;
+        this.name = name;
+        this.bra_name = bra_name;
+        this.logo = logo;
+        this.address = address;
+        this.numberEpisodes = numberEpisodes;
+        this.manager_name = manager_name;
+    }
+
     public Center(
             String name, String bra_name, String logo, String address,
             String numberEpisodes, String manager_name) {

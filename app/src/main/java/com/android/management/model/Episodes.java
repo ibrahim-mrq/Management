@@ -46,6 +46,20 @@ public class Episodes implements Serializable {
     public Episodes() {
     }
 
+    public Episodes(int id, String name, String admin_name, String center_name,
+                    String branch_name, String numberStudents, String description,
+                    String address, String photo) {
+        this.id = id;
+        this.name = name;
+        this.admin_name = admin_name;
+        this.center_name = center_name;
+        this.branch_name = branch_name;
+        this.numberStudents = numberStudents;
+        this.description = description;
+        this.address = address;
+        this.photo = photo;
+    }
+
     public Episodes(String name, String admin_name, String center_name,
                     String branch_name, String numberStudents,
                     String description, String address, String photo) {

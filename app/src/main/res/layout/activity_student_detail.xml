@@ -211,10 +211,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="phone"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:longClickable="false"
                         android:textAlignment="textStart"
                         android:textColor="@color/colorBlack"
                         android:textStyle="bold"
-                        tools:ignore="RtlSymmetry" />
+                        tools:ignore="KeyboardInaccessibleWidget,RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -321,8 +324,8 @@
                         android:layout_height="match_parent"
                         android:clickable="true"
                         android:focusable="false"
-                        android:inputType="textAutoComplete"
                         android:longClickable="false"
+                        android:inputType="textAutoComplete"
                         android:textAlignment="textStart"
                         android:textColor="@color/colorBlack"
                         android:textStyle="bold"

@@ -22,8 +22,8 @@ public interface UserDAO {
     @Insert()
     long insertUser(User user);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long updateUser(User user);
+    @Update()
+    int updateUser(User user);
 
     @Delete
     int deleteUser(User user);
@@ -71,7 +71,7 @@ public interface UserDAO {
     List<String> getAdminsName();
 
     @Query("select fullName from User where validity = \"Wallet\" order by fullName asc ")
-    List<String> getWalletsName();
+    List<String> getAllWalletsName();
 
     @Query("select * from User where validity = \"Student\" and episode_name like '%' ||:episode_name ||'%'")
     LiveData<List<User>> getStudentsByEpisodes(String episode_name);

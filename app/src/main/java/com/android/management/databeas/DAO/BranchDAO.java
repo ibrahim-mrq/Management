@@ -22,8 +22,8 @@ public interface BranchDAO {
     @Insert()
     long insertBranch(Branch model);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long updateBranch(Branch model);
+    @Update()
+    int updateBranch(Branch model);
 
     @Delete
     int deleteBranch(Branch model);

@@ -36,7 +36,7 @@ public class Repository {
         return userDAO.insertUser(users);
     }
 
-    public long updateUser(User users) {
+    public int updateUser(User users) {
         return userDAO.updateUser(users);
     }
 
@@ -76,6 +76,10 @@ public class Repository {
         return userDAO.getAdminsName();
     }
 
+    public List<String> getAllWalletsName() {
+        return userDAO.getAllWalletsName();
+    }
+
     public LiveData<List<User>> getStudents() {
         return userDAO.getStudents();
     }
@@ -102,7 +106,7 @@ public class Repository {
         return centerDAO.insertCenter(model);
     }
 
-    public long updateCenter(Center model) {
+    public int updateCenter(Center model) {
         return centerDAO.updateCenter(model);
     }
 
@@ -124,7 +128,7 @@ public class Repository {
         return branchDAO.insertBranch(model);
     }
 
-    public long updateBranch(Branch model) {
+    public int updateBranch(Branch model) {
         return branchDAO.updateBranch(model);
     }
 
@@ -146,7 +150,7 @@ public class Repository {
         return episodesDAO.insertEpisodes(model);
     }
 
-    public long updateEpisodes(Episodes model) {
+    public int updateEpisodes(Episodes model) {
         return episodesDAO.updateEpisodes(model);
     }
 

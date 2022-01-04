@@ -111,7 +111,7 @@ public class WalletDetailActivity extends BaseActivity {
             tvTool.setText("تعديل بيانات المحفظ");
             User model = (User) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
-            btn_save.setOnClickListener(view -> editWallet());
+            btn_save.setOnClickListener(view -> editWallet(model));
         }
 
         imgCamera.setOnClickListener(v ->
@@ -174,7 +174,7 @@ public class WalletDetailActivity extends BaseActivity {
         }
     }
 
-    private void editWallet() {
+    private void editWallet(User user) {
         if (isNotEmpty(etName, tvName)
                 && isNotEmpty(etId, tvId)
                 && isNotEmpty(etAddress, tvAddress)
@@ -187,22 +187,24 @@ public class WalletDetailActivity extends BaseActivity {
         ) {
             enableElements(false);
             User model = new User(
+                    user.getId(),
                     etId.getText().toString().trim(),
                     etName.getText().toString().trim(),
-                    "",
+                    user.getEmail(),
                     etPhone.getText().toString().trim(),
                     Calendar.getInstance().getTime(),
                     etAddress.getText().toString().trim(),
                     etBranch.getText().toString().trim(),
-                    etCenter.getText().toString().trim(),
                     etEpisode.getText().toString().trim(),
+                    etCenter.getText().toString().trim(),
                     etPassword.getText().toString().trim(),
                     Validity.Wallet,
                     path
             );
-            long isInsert = viewModel.updateUser(model);
+            int isUpdate = viewModel.updateUser(model);
+            Log.e("response", "" + isUpdate);
             new Handler().postDelayed(() -> {
-                if (isInsert > -1) {
+                if (isUpdate > -1) {
                     finish();
                 } else {
                     Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();

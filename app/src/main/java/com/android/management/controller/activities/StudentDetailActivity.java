@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.common.base.Converter;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 
@@ -65,7 +67,7 @@ public class StudentDetailActivity extends BaseActivity {
     private AppCompatButton btn_save;
     private SpinKitView progressBar;
     private FloatingActionButton fab;
-
+    private Calendar calendar;
     private String type = "";
     private String path = "";
     private ViewModel viewModel;
@@ -112,18 +114,17 @@ public class StudentDetailActivity extends BaseActivity {
         progressBar = findViewById(R.id.progressBar);
         fab = findViewById(R.id.fab_rate);
 
-
         imgBackTool.setOnClickListener(view -> onBackPressed());
 
         if (type.equals(Constants.TYPE_ADD)) {
             imgDelete.setVisibility(View.GONE);
             tvTool.setText("اضافة طالب جديد");
-            btn_save.setOnClickListener(view -> addWallet());
+            btn_save.setOnClickListener(view -> addStudent());
         } else {
             tvTool.setText("تعديل بيانات الطالب");
             User model = (User) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
-            btn_save.setOnClickListener(view -> editWallet());
+            btn_save.setOnClickListener(view -> editStudent(model));
         }
 
         imgCamera.setOnClickListener(v ->
@@ -134,8 +135,40 @@ public class StudentDetailActivity extends BaseActivity {
                         .start(Constants.REQUEST_GALLERY_CODE)
         );
 
+        etDate.setOnClickListener(view -> {
+            DatePickerDialog dialog = DatePickerDialog.newInstance((view1, year, monthOfYear, dayOfMonth) -> {
+                etDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                setCalendar(year, monthOfYear, dayOfMonth);
+            }, Calendar.getInstance());
+            dialog.show(getSupportFragmentManager(), null);
+        });
+        setAdapters();
     }
 
+    private void setCalendar(int year, int month, int day) {
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+    }
+
+    private void setAdapters() {
+        ArrayAdapter<String> centerAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getAllCenterName());
+        etCenter.setAdapter(centerAdapter);
+
+        ArrayAdapter<String> centerBranch = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getAllBranchName());
+        etBranch.setAdapter(centerBranch);
+
+        ArrayAdapter<String> centerAdmin = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getAllEpisodesName());
+        etEpisode.setAdapter(centerAdmin);
+
+        ArrayAdapter<String> centerWallet = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getAllWalletsName());
+        etWallet.setAdapter(centerWallet);
+    }
 
     private void initData(User model) {
         Glide.with(this).load(model.getPhoto()).placeholder(R.drawable.logo).into(image);
@@ -144,13 +177,14 @@ public class StudentDetailActivity extends BaseActivity {
         etAddress.setText(model.getAddress());
         etPhone.setText(model.getPhone());
         etPassword.setText(model.getPassword());
-        etDate.setText("" + DateConverter.fromDate(model.getBirthDate()));
+        etDate.setText("" + DateConverter.toDate(model.getBirthDate().getTime()));
         etBranch.setText(model.getBranch_name());
         etEpisode.setText(model.getEpisode_name());
         etCenter.setText(model.getCenter_name());
+        path = model.getPhoto();
     }
 
-    private void addWallet() {
+    private void addStudent() {
         if (isNotEmpty(etName, tvName)
                 && isNotEmpty(etId, tvId)
                 && isNotEmpty(etAddress, tvAddress)
@@ -173,7 +207,7 @@ public class StudentDetailActivity extends BaseActivity {
                     etCenter.getText().toString().trim(),
                     etEpisode.getText().toString().trim(),
                     etPassword.getText().toString().trim(),
-                    Validity.Wallet,
+                    Validity.Student,
                     path
             );
             long isInsert = viewModel.insertUser(model);
@@ -188,7 +222,7 @@ public class StudentDetailActivity extends BaseActivity {
         }
     }
 
-    private void editWallet() {
+    private void editStudent(User user) {
         if (isNotEmpty(etName, tvName)
                 && isNotEmpty(etId, tvId)
                 && isNotEmpty(etAddress, tvAddress)
@@ -201,22 +235,24 @@ public class StudentDetailActivity extends BaseActivity {
         ) {
             enableElements(false);
             User model = new User(
+                    user.getId(),
                     etId.getText().toString().trim(),
                     etName.getText().toString().trim(),
-                    "",
+                    user.getEmail(),
                     etPhone.getText().toString().trim(),
                     Calendar.getInstance().getTime(),
                     etAddress.getText().toString().trim(),
                     etBranch.getText().toString().trim(),
-                    etCenter.getText().toString().trim(),
                     etEpisode.getText().toString().trim(),
+                    etCenter.getText().toString().trim(),
                     etPassword.getText().toString().trim(),
-                    Validity.Wallet,
+                    Validity.Student,
                     path
             );
-            long isInsert = viewModel.updateUser(model);
+            int isUpdate = viewModel.updateUser(model);
+            Log.e("response", "" + isUpdate);
             new Handler().postDelayed(() -> {
-                if (isInsert > -1) {
+                if (isUpdate > -1) {
                     finish();
                 } else {
                     Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();

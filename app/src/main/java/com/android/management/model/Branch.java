@@ -19,6 +19,11 @@ public class Branch {
     public Branch() {
     }
 
+    public Branch(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Branch(@NonNull String name) {
         this.name = name;
     }

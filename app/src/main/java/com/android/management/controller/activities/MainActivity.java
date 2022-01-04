@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.management.R;
 import com.android.management.controller.fragments.CenterFragment;
+import com.android.management.controller.fragments.EpisodesFragment;
 import com.android.management.controller.fragments.HomeFragment;
 import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.Constants;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new CenterFragment());
                     break;
                 case R.id.nav_episodes:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new EpisodesFragment());
                     break;
                 case R.id.nav_wallets:
                     replaceFragment(new HomeFragment());

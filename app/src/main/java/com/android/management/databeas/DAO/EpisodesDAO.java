@@ -23,8 +23,8 @@ public interface EpisodesDAO {
     @Insert()
     long insertEpisodes(Episodes model);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long updateEpisodes(Episodes model);
+    @Update()
+    int updateEpisodes(Episodes model);
 
     @Delete
     int deleteEpisodes(Episodes model);
