@@ -22,9 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.management.R;
+import com.android.management.controller.fragments.AdminsFragment;
 import com.android.management.controller.fragments.CenterFragment;
 import com.android.management.controller.fragments.EpisodesFragment;
 import com.android.management.controller.fragments.HomeFragment;
+import com.android.management.controller.fragments.StudentsFragment;
+import com.android.management.controller.fragments.WalletsFragment;
 import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.Constants;
 import com.google.android.material.navigation.NavigationView;
@@ -79,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Log.e("response", "size = " + viewModel.getManagers().getValue().size());
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
 
     }
@@ -99,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new EpisodesFragment());
                     break;
                 case R.id.nav_wallets:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new WalletsFragment());
                     break;
-                case R.id.nav_admins:
-                    replaceFragment(new HomeFragment());
-                    break;
+//                case R.id.nav_admins:
+//                    replaceFragment(new AdminsFragment());
+//                    break;
                 case R.id.nav_students:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new StudentsFragment());
                     break;
                 case R.id.nav_logout:
                     Constants.logout(this);

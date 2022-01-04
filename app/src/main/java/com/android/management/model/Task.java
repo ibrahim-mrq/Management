@@ -2,61 +2,62 @@ package com.android.management.model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-@Entity(foreignKeys = {
-        @ForeignKey(
-                entity = User.class,
-                parentColumns = {"id"},
-                childColumns = {"student_id"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE),
-        @ForeignKey(
-                entity = Episodes.class,
-                parentColumns = {"id"},
-                childColumns = {"episodes_id"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE),
-        @ForeignKey(
-                entity = Center.class,
-                parentColumns = {"id"},
-                childColumns = {"center_id"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE)
+import com.android.management.helpers.DateConverter;
 
-})
-public class Task {
+import java.io.Serializable;
+import java.util.Date;
 
-    @PrimaryKey
+@Entity
+@TypeConverters({DateConverter.class})
+public class Task implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
     private int id;
-    private int student_id;
-    private int episodes_id;
-    private int center_id;
+    private String student_name;
+    private String episodes_name;
+    private String center_name;
     private String host_name;
     private String tester_name;
-    private String task_end;
-    private String task_start;
-    private int from;
-    private int to;
-    private Type type;
+    private Date task_end;
+    private Date from;
+    private Date to;
+    private String type;
     private int evaluation;
     private String notes;
 
     public Task() {
     }
 
-    public Task(int id, int student_id, int episodes_id, int center_id,
-                String host_name, String tester_name, String task_end,
-                String task_start, int from, int to, Type type,
+    public Task(int id, String student_name, String episodes_name, String center_name,
+                String host_name, String tester_name, Date task_end, Date from, Date to, String type,
                 int evaluation, String notes) {
         this.id = id;
-        this.student_id = student_id;
-        this.episodes_id = episodes_id;
-        this.center_id = center_id;
+        this.student_name = student_name;
+        this.episodes_name = episodes_name;
+        this.center_name = center_name;
         this.host_name = host_name;
         this.tester_name = tester_name;
         this.task_end = task_end;
-        this.task_start = task_start;
+        this.from = from;
+        this.to = to;
+        this.type = type;
+        this.evaluation = evaluation;
+        this.notes = notes;
+    }
+
+    public Task(String student_name, String episodes_name, String center_name, String host_name,
+                String tester_name, Date task_end, Date from, Date to,
+                String type, int evaluation, String notes) {
+        this.student_name = student_name;
+        this.episodes_name = episodes_name;
+        this.center_name = center_name;
+        this.host_name = host_name;
+        this.tester_name = tester_name;
+        this.task_end = task_end;
         this.from = from;
         this.to = to;
         this.type = type;
@@ -72,28 +73,28 @@ public class Task {
         this.id = id;
     }
 
-    public int getStudent_id() {
-        return student_id;
+    public String getStudent_name() {
+        return student_name;
     }
 
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
     }
 
-    public int getEpisodes_id() {
-        return episodes_id;
+    public String getEpisodes_name() {
+        return episodes_name;
     }
 
-    public void setEpisodes_id(int episodes_id) {
-        this.episodes_id = episodes_id;
+    public void setEpisodes_name(String episodes_name) {
+        this.episodes_name = episodes_name;
     }
 
-    public int getCenter_id() {
-        return center_id;
+    public String getCenter_name() {
+        return center_name;
     }
 
-    public void setCenter_id(int center_id) {
-        this.center_id = center_id;
+    public void setCenter_name(String center_name) {
+        this.center_name = center_name;
     }
 
     public String getHost_name() {
@@ -112,43 +113,36 @@ public class Task {
         this.tester_name = tester_name;
     }
 
-    public String getTask_end() {
+    public Date getTask_end() {
         return task_end;
     }
 
-    public void setTask_end(String task_end) {
+    public void setTask_end(Date task_end) {
         this.task_end = task_end;
     }
 
-    public String getTask_start() {
-        return task_start;
-    }
 
-    public void setTask_start(String task_start) {
-        this.task_start = task_start;
-    }
-
-    public int getFrom() {
+    public Date getFrom() {
         return from;
     }
 
-    public void setFrom(int from) {
+    public void setFrom(Date from) {
         this.from = from;
     }
 
-    public int getTo() {
+    public Date getTo() {
         return to;
     }
 
-    public void setTo(int to) {
+    public void setTo(Date to) {
         this.to = to;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 

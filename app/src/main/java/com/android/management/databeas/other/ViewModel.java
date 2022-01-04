@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
+import com.android.management.model.Task;
 import com.android.management.model.User;
 
 import java.util.List;
@@ -34,6 +35,10 @@ public class ViewModel extends AndroidViewModel {
 
     public int deleteUser(User users) {
         return repository.deleteUser(users);
+    }
+
+    public int changePassword(int id, String password) {
+        return repository.changePassword(id, password);
     }
 
     public int deleteUserByName(String name) {
@@ -166,4 +171,24 @@ public class ViewModel extends AndroidViewModel {
         return repository.getAllEpisodesName();
     }
 
+    // TODO : Task Queries
+
+    public long insertTask(Task model) {
+        return repository.insertTask(model);
+    }
+
+    public int updateTask(Task model) {
+        return repository.updateTask(model);
+    }
+
+    public int deleteTask(Task model) {
+        return repository.deleteTask(model);
+    }
+
+    public LiveData<List<Task>> getAllTask() {
+        return repository.getAllTask();
+    }
+    public LiveData<List<Task>> getAllTaskByName(String student_name) {
+        return repository.getAllTaskByName(student_name);
+    }
 }

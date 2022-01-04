@@ -26,6 +26,7 @@
     <string name="isExist_email">البريد الإلكتروني موجود مسبقا</string>
     <string name="isExist_id">رقم الهوية موجود مسبقا</string>
     <string name="error">خطأ في الادخال ، تأكد من البيانات وحاول مجددا</string>
+    <string name="successes">تم تغيير كلمة المرور بنجاح</string>
 
     <string name="home">الرئيسية</string>
     <string name="centers">مراكز التحفيظ</string>
@@ -49,5 +50,15 @@
     <string name="cancel">الغاء</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="language">لغة التطبيق</string>
+    <string name="changePassword">تغيير كلمة المرور</string>
+    <string name="message_mode">تفعيل وضع الرسائل</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="old_pass">كلمة المرور القديمة</string>
+    <string name="new_pass">كلمة المرور الجديدة</string>
+    <string name="setting">الاعدادات</string>
+    <string name="firebase">تصدير البيانات الى الفيربيز</string>
+    <string name="from_date">من تاريخ</string>
+    <string name="to_date">الى تاريخ</string>
 
 </resources>

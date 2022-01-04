@@ -20,6 +20,7 @@ public class Constants {
     public final static String IS_LOGIN = "is_login";
 
     public final static String KEY = "key";
+    public final static String KEY_2 = "key2";
     public final static String TYPE = "type";
     public final static String TYPE_ADD = "type_add";
     public final static String TYPE_EDIT = "type_edit";

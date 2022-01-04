@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.android.management.databeas.DAO.BranchDAO;
 import com.android.management.databeas.DAO.CenterDAO;
 import com.android.management.databeas.DAO.EpisodesDAO;
+import com.android.management.databeas.DAO.TaskDAO;
 import com.android.management.databeas.DAO.UserDAO;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
@@ -34,6 +35,8 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract BranchDAO branchDAO();
 
     public abstract EpisodesDAO episodesDAO();
+
+    public abstract TaskDAO taskDAO();
 
     private static volatile MyDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

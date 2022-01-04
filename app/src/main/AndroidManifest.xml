@@ -18,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".controller.activities.StudentDetailActivity"></activity>
+        <activity android:name=".controller.activities.TaskDetailActivity"></activity>
+        <activity android:name=".controller.activities.TaskActivity" />
+        <activity android:name=".controller.activities.SettingActivity" />
+        <activity android:name=".controller.activities.StudentDetailActivity" />
         <activity android:name=".controller.activities.StudentActivity" />
         <activity android:name=".controller.activities.WalletDetailActivity" />
         <activity android:name=".controller.activities.WalletActivity" />

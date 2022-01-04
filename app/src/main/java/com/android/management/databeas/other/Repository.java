@@ -7,10 +7,12 @@ import androidx.lifecycle.LiveData;
 import com.android.management.databeas.DAO.BranchDAO;
 import com.android.management.databeas.DAO.CenterDAO;
 import com.android.management.databeas.DAO.EpisodesDAO;
+import com.android.management.databeas.DAO.TaskDAO;
 import com.android.management.databeas.DAO.UserDAO;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
+import com.android.management.model.Task;
 import com.android.management.model.User;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class Repository {
     CenterDAO centerDAO;
     BranchDAO branchDAO;
     EpisodesDAO episodesDAO;
+    TaskDAO taskDAO;
 
     public Repository(Application application) {
         MyDatabase db = MyDatabase.getDatabase(application);
@@ -28,6 +31,7 @@ public class Repository {
         centerDAO = db.centerDAO();
         branchDAO = db.branchDAO();
         episodesDAO = db.episodesDAO();
+        taskDAO = db.taskDAO();
     }
 
     // TODO : USER Queries
@@ -38,6 +42,10 @@ public class Repository {
 
     public int updateUser(User users) {
         return userDAO.updateUser(users);
+    }
+
+    public int changePassword(int id, String password) {
+        return userDAO.changePassword(id, password);
     }
 
     public int deleteUser(User users) {
@@ -173,4 +181,28 @@ public class Repository {
     public List<String> getAllEpisodesName() {
         return episodesDAO.getAllEpisodesName();
     }
+
+    // TODO : Task Queries
+
+    public long insertTask(Task model) {
+        return taskDAO.insertTask(model);
+    }
+
+    public int updateTask(Task model) {
+        return taskDAO.updateTask(model);
+    }
+
+    public int deleteTask(Task model) {
+        return taskDAO.deleteTask(model);
+    }
+
+    public LiveData<List<Task>> getAllTask() {
+        return taskDAO.getAllTask();
+    }
+    public LiveData<List<Task>> getAllTaskByName(String student_name) {
+        return taskDAO.getAllTaskByName(student_name);
+    }
+
+
+
 }

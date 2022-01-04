@@ -28,6 +28,9 @@ public interface UserDAO {
     @Delete
     int deleteUser(User user);
 
+    @Query("update User SET password = :password WHERE id = :id")
+    int changePassword(int id, String password);
+
     @Query("SELECT EXISTS(SELECT * FROM User WHERE p_id = :p_id)")
     Boolean isUserIdExist(String p_id);
 
