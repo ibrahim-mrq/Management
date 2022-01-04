@@ -3,31 +3,23 @@ package com.android.management.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.android.management.helpers.DateConverter;
 
-@Entity(foreignKeys = {
-        @ForeignKey(
-                entity = User.class,
-                parentColumns = {"branch_name"},
-                childColumns = {"name"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE)}
-)
-@TypeConverters({DateConverter.class})
+@Entity(indices = {@Index(value = {"name"}, unique = true)})
 public class Branch {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
 
     public Branch() {
     }
 
-    public Branch(int id, @NonNull String name) {
-        this.id = id;
+    public Branch(@NonNull String name) {
         this.name = name;
     }
 

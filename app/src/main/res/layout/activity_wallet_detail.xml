@@ -93,6 +93,31 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/walletDetail_tv_id"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/id"
+                    app:boxStrokeColor="@color/colorBlack"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorBlack">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/walletDetail_et_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="number"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorBlack"
+                        android:textStyle="bold"
+                        tools:ignore="RtlSymmetry" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/walletDetail_tv_address"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
@@ -153,8 +178,8 @@
                     app:boxStrokeColor="@color/colorBlack"
                     app:hintAnimationEnabled="true"
                     app:hintEnabled="true"
-                    app:passwordToggleEnabled="true"
-                    app:hintTextColor="@color/colorBlack">
+                    app:hintTextColor="@color/colorBlack"
+                    app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/walletDetail_et_password"

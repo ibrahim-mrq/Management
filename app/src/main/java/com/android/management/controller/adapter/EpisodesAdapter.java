@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.management.R;
 import com.android.management.controller.activities.EpisodeDetailActivity;
+import com.android.management.controller.activities.StudentActivity;
+import com.android.management.controller.activities.WalletActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Episodes;
 import com.bumptech.glide.Glide;
@@ -85,6 +87,18 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.Episod
                 mContext.startActivity(new Intent(mContext, EpisodeDetailActivity.class)
                         .putExtra(Constants.KEY, Constants.TYPE_EDIT)
                         .putExtra(Constants.TYPE_MODEL, model)
+                );
+            });
+
+            tvStudents.setOnClickListener(view -> {
+                mContext.startActivity(new Intent(mContext, StudentActivity.class)
+                        .putExtra(Constants.KEY, model.getName())
+                );
+            });
+
+            tvWallets.setOnClickListener(view -> {
+                mContext.startActivity(new Intent(mContext, WalletActivity.class)
+                        .putExtra(Constants.KEY, model.getName())
                 );
             });
         }

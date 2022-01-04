@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity {
 
     private void login() {
         if (isNotEmpty(loginEtId, loginTvId)
-                && isExistId(loginTvPassword, viewModel.isUserIdExist(loginEtId.getText().toString().trim()))
                 && isNotEmpty(loginEtPassword, loginTvPassword)
         ) {
             enableElements(false);

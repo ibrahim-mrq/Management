@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.management.R;
 import com.android.management.controller.activities.EpisodeDetailActivity;
+import com.android.management.controller.activities.EpisodesActivity;
 import com.android.management.controller.activities.WalletDetailActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.User;
@@ -81,9 +82,16 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
             itemView.setOnClickListener(view -> {
                 mContext.startActivity(new Intent(mContext, WalletDetailActivity.class)
                         .putExtra(Constants.KEY, Constants.TYPE_EDIT)
-                        .putExtra(Constants.TYPE, model)
+                        .putExtra(Constants.TYPE_MODEL, model)
                 );
             });
+//
+//            tvEpisodes.setOnClickListener(view -> {
+//                mContext.startActivity(new Intent(mContext, EpisodesActivity.class)
+//                        .putExtra(Constants.KEY, Constants.TYPE_EDIT)
+//                        .putExtra(Constants.TYPE, model)
+//                );
+//            });
         }
     }
 

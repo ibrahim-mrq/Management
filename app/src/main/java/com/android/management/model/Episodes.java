@@ -1,47 +1,44 @@
 package com.android.management.model;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(foreignKeys = {
-        @ForeignKey(
-                entity = User.class,
-                parentColumns = {"fullName"},
-                childColumns = {"admin_name"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE),
-        @ForeignKey(
-                entity = Center.class,
-                parentColumns = {"name"},
-                childColumns = {"center_name"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE),
-        @ForeignKey(
-                entity = Branch.class,
-                parentColumns = {"name"},
-                childColumns = {"branch_name"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE)
+@Entity(
+        foreignKeys = {
+//                @ForeignKey(
+//                        entity = User.class,
+//                        parentColumns = {"fullName"},
+//                        childColumns = {"admin_name"},
+//                        onUpdate = ForeignKey.CASCADE,
+//                        onDelete = ForeignKey.CASCADE),
+                @ForeignKey(
+                        entity = Center.class,
+                        parentColumns = {"name"},
+                        childColumns = {"center_name"},
+                        onUpdate = ForeignKey.CASCADE,
+                        onDelete = ForeignKey.CASCADE),
+                @ForeignKey(
+                        entity = Branch.class,
+                        parentColumns = {"name"},
+                        childColumns = {"branch_name"},
+                        onUpdate = ForeignKey.CASCADE,
+                        onDelete = ForeignKey.CASCADE)
 
-})
+        }, indices = {@Index(value = {"name"}, unique = true)}
+)
 public class Episodes implements Serializable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
-
     private String admin_name;
     private String center_name;
     private String branch_name;
-
-    private long lat;
-    private long lon;
-    @ColumnInfo(name = "number_of_students")
-    private int number_students;
+    private String numberStudents;
     private String description;
     private String address;
     private String photo;
@@ -49,17 +46,14 @@ public class Episodes implements Serializable {
     public Episodes() {
     }
 
-    public Episodes(int id, String name, String admin_name, String center_name,
-                    String branch_name, long lat, long lon, int number_students,
+    public Episodes(String name, String admin_name, String center_name,
+                    String branch_name, String numberStudents,
                     String description, String address, String photo) {
-        this.id = id;
         this.name = name;
         this.admin_name = admin_name;
         this.center_name = center_name;
         this.branch_name = branch_name;
-        this.lat = lat;
-        this.lon = lon;
-        this.number_students = number_students;
+        this.numberStudents = numberStudents;
         this.description = description;
         this.address = address;
         this.photo = photo;
@@ -105,28 +99,12 @@ public class Episodes implements Serializable {
         this.branch_name = branch_name;
     }
 
-    public long getLat() {
-        return lat;
+    public String getNumberStudents() {
+        return numberStudents;
     }
 
-    public void setLat(long lat) {
-        this.lat = lat;
-    }
-
-    public long getLon() {
-        return lon;
-    }
-
-    public void setLon(long lon) {
-        this.lon = lon;
-    }
-
-    public int getNumber_students() {
-        return number_students;
-    }
-
-    public void setNumber_students(int number_students) {
-        this.number_students = number_students;
+    public void setNumberStudents(String numberStudents) {
+        this.numberStudents = numberStudents;
     }
 
     public String getDescription() {

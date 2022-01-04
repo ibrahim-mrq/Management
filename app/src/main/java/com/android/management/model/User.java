@@ -14,16 +14,7 @@ import com.android.management.helpers.DateConverter;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(
-//        foreignKeys = {@ForeignKey(
-//                entity = Branch.class,
-//                parentColumns = {"name"},
-//                childColumns = {"branch_name"},
-//                onUpdate = ForeignKey.CASCADE,
-//                onDelete = ForeignKey.CASCADE
-//        )},
-        indices = {@Index(value = {"p_id", "email"}, unique = true)}
-)
+@Entity(indices = {@Index(value = {"p_id", "email"}, unique = true)})
 @TypeConverters({DateConverter.class})
 public class User implements Serializable {
 

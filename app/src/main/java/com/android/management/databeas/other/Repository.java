@@ -4,9 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.android.management.databeas.DAO.BranchDAO;
 import com.android.management.databeas.DAO.CenterDAO;
+import com.android.management.databeas.DAO.EpisodesDAO;
 import com.android.management.databeas.DAO.UserDAO;
+import com.android.management.model.Branch;
 import com.android.management.model.Center;
+import com.android.management.model.Episodes;
 import com.android.management.model.User;
 
 import java.util.List;
@@ -15,11 +19,15 @@ public class Repository {
 
     UserDAO userDAO;
     CenterDAO centerDAO;
+    BranchDAO branchDAO;
+    EpisodesDAO episodesDAO;
 
     public Repository(Application application) {
         MyDatabase db = MyDatabase.getDatabase(application);
         userDAO = db.userDAO();
         centerDAO = db.centerDAO();
+        branchDAO = db.branchDAO();
+        episodesDAO = db.episodesDAO();
     }
 
     // TODO : USER Queries
@@ -28,7 +36,7 @@ public class Repository {
         return userDAO.insertUser(users);
     }
 
-    public int updateUser(User users) {
+    public long updateUser(User users) {
         return userDAO.updateUser(users);
     }
 
@@ -64,8 +72,20 @@ public class Repository {
         return userDAO.getManagersName();
     }
 
+    public List<String> getAdminsName() {
+        return userDAO.getAdminsName();
+    }
+
     public LiveData<List<User>> getStudents() {
         return userDAO.getStudents();
+    }
+
+    public LiveData<List<User>> getStudentsByEpisodes(String episodeName) {
+        return userDAO.getStudentsByEpisodes(episodeName);
+    }
+
+    public LiveData<List<User>> getWalletsByEpisodes(String episodeName) {
+        return userDAO.getWalletsByEpisodes(episodeName);
     }
 
     public LiveData<List<User>> getWallets() {
@@ -82,7 +102,7 @@ public class Repository {
         return centerDAO.insertCenter(model);
     }
 
-    public int updateCenter(Center model) {
+    public long updateCenter(Center model) {
         return centerDAO.updateCenter(model);
     }
 
@@ -98,4 +118,55 @@ public class Repository {
         return centerDAO.getAllCenterName();
     }
 
+    // TODO : Branch Queries
+
+    public long insertBranch(Branch model) {
+        return branchDAO.insertBranch(model);
+    }
+
+    public long updateBranch(Branch model) {
+        return branchDAO.updateBranch(model);
+    }
+
+    public int deleteBranch(Branch model) {
+        return branchDAO.deleteBranch(model);
+    }
+
+    public LiveData<List<Branch>> getAllBranch() {
+        return branchDAO.getAllBranch();
+    }
+
+    public List<String> getAllBranchName() {
+        return branchDAO.getAllBranchName();
+    }
+
+    // TODO : Episodes Queries
+
+    public long insertEpisodes(Episodes model) {
+        return episodesDAO.insertEpisodes(model);
+    }
+
+    public long updateEpisodes(Episodes model) {
+        return episodesDAO.updateEpisodes(model);
+    }
+
+    public int deleteEpisodes(Episodes model) {
+        return episodesDAO.deleteEpisodes(model);
+    }
+
+    public LiveData<List<Episodes>> getAllEpisodes() {
+        return episodesDAO.getAllEpisodes();
+    }
+
+    public LiveData<List<Episodes>> getEpisodesByCenter(String centerName) {
+        return episodesDAO.getEpisodesByCenter(centerName);
+    }
+
+    public LiveData<List<Episodes>> getEpisodesByAdmin(String adminName) {
+        return episodesDAO.getEpisodesByAdmin(adminName);
+    }
+
+    public List<String> getAllEpisodesName() {
+        return episodesDAO.getAllEpisodesName();
+    }
 }

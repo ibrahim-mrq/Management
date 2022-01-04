@@ -10,16 +10,20 @@ import androidx.room.Update;
 
 import com.android.management.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
 public interface UserDAO {
 
     @Insert()
+    void insertUser(ArrayList<User> user);
+
+    @Insert()
     long insertUser(User user);
 
-    @Update
-    int updateUser(User user);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long updateUser(User user);
 
     @Delete
     int deleteUser(User user);
@@ -54,8 +58,25 @@ public interface UserDAO {
     @Query("select * from User where p_id = :p_id AND password = :password ")
     User login(String p_id, String password);
 
+    // TODO : NEW Query ...
+
     // مجموع الارقام الي بالعمود ل مستخدم
     @Query("select sum(id) from User where id = :id ")
-    double getRate(int id);
+    double getStudentRate(int id);
+
+    @Query("select fullName from User where validity = \"Student\" order by fullName asc ")
+    List<String> getStudentsName();
+
+    @Query("select fullName from User where validity = \"Admin\" order by fullName asc ")
+    List<String> getAdminsName();
+
+    @Query("select fullName from User where validity = \"Wallet\" order by fullName asc ")
+    List<String> getWalletsName();
+
+    @Query("select * from User where validity = \"Student\" and episode_name like '%' ||:episode_name ||'%'")
+    LiveData<List<User>> getStudentsByEpisodes(String episode_name);
+
+    @Query("select * from User where validity = \"Wallet\" and episode_name like '%' ||:episode_name ||'%'")
+    LiveData<List<User>> getWalletsByEpisodes(String episode_name);
 
 }

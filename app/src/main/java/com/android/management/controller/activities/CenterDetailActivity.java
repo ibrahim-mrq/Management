@@ -1,5 +1,7 @@
 package com.android.management.controller.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,21 +23,15 @@ import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
-import com.android.management.model.User;
-import com.android.management.model.Validity;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.orhanobut.hawk.Hawk;
-
-import java.util.ArrayList;
 
 public class CenterDetailActivity extends BaseActivity {
 
-    private Toolbar toolbar;
     private TextView tvTool;
     private ImageView imgBackTool;
     private ImageView centerImage;
@@ -73,7 +68,6 @@ public class CenterDetailActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this).get(ViewModel.class);
         type = getIntent().getStringExtra(Constants.KEY);
 
-        toolbar = findViewById(R.id.toolbar);
         tvTool = findViewById(R.id.tv_tool);
         imgBackTool = findViewById(R.id.img_back_tool);
         centerImage = findViewById(R.id.center_image);
@@ -105,6 +99,7 @@ public class CenterDetailActivity extends BaseActivity {
             Center model = (Center) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
             btn_save.setOnClickListener(view -> editCenter());
+            centerImgDelete.setOnClickListener(view -> dialogDelete(this, model));
         }
 
         centerImgCamera.setOnClickListener(v ->
@@ -115,20 +110,30 @@ public class CenterDetailActivity extends BaseActivity {
                         .start(Constants.REQUEST_GALLERY_CODE)
         );
 
-        fab.setOnClickListener(v ->
-                startActivity(new Intent(this, EpisodesActivity.class)));
+        fab.setOnClickListener(v -> {
+            startActivity(new Intent(this, EpisodesActivity.class)
+                    .putExtra(Constants.KEY, centerEtName.getText().toString().trim())
+            );
+        });
 
-        ArrayAdapter<String> listManager = new ArrayAdapter<>(this,
+        setAdapters();
+    }
+
+    private void setAdapters() {
+        ArrayAdapter<String> centerBranch = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getAllBranchName());
+        centerEtBranch.setAdapter(centerBranch);
+
+        ArrayAdapter<String> centerAdmin = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, viewModel.getManagersName());
-        centerEtAdmin.setAdapter(listManager);
-
+        centerEtAdmin.setAdapter(centerAdmin);
     }
 
     private void initData(Center model) {
         Glide.with(this).load(model.getLogo()).placeholder(R.drawable.logo).into(centerImage);
         centerEtName.setText(model.getName());
         centerEtAddress.setText(model.getAddress());
-        centerEtCount.setText(model.getNumberEpisodes() + "");
+        centerEtCount.setText(model.getNumberEpisodes());
         centerEtBranch.setText(model.getBra_name());
         centerEtAdmin.setText(model.getManager_name());
         path = model.getLogo();
@@ -157,11 +162,10 @@ public class CenterDetailActivity extends BaseActivity {
                 if (isInsert > -1) {
                     finish();
                 } else {
-                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
                 enableElements(true);
             }, 1000);
-
         }
     }
 
@@ -175,6 +179,24 @@ public class CenterDetailActivity extends BaseActivity {
                 && isImageNotEmpty(path)
         ) {
             enableElements(false);
+            Center model = new Center(
+                    centerEtName.getText().toString().trim(),
+                    centerEtBranch.getText().toString().trim(),
+                    path,
+                    centerEtAddress.getText().toString().trim(),
+                    centerEtCount.getText().toString().trim(),
+                    centerEtAdmin.getText().toString().trim()
+            );
+            long isUpdate = viewModel.updateCenter(model);
+            Log.e("response", "isUpdate = " + isUpdate);
+            new Handler().postDelayed(() -> {
+                if (isUpdate > -1) {
+                    finish();
+                } else {
+                    Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+                enableElements(true);
+            }, 1000);
         }
     }
 
@@ -197,6 +219,29 @@ public class CenterDetailActivity extends BaseActivity {
         centerEtBranch.setEnabled(enable);
         centerEtAdmin.setEnabled(enable);
         fab.setEnabled(enable);
+    }
+
+    private void dialogDelete(Context context, Center model) {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.delete_item)
+                .setMessage(R.string.delete_item_sure)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    int isDeleted = viewModel.deleteCenter(model);
+                    if (isDeleted > 0) {
+                        dialog.dismiss();
+                        onBackPressed();
+                    } else {
+                        Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, (dialog, i) -> {
+                    dialog.dismiss();
+                })
+                .setNeutralButton(android.R.string.cancel, (dialog, i) -> {
+                    dialog.dismiss();
+                })
+                .setIcon(R.drawable.ic_delete)
+                .show();
     }
 
     @Override

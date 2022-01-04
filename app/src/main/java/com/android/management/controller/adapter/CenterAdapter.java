@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.management.R;
 import com.android.management.controller.activities.CenterDetailActivity;
+import com.android.management.controller.activities.EpisodesActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
 import com.bumptech.glide.Glide;
@@ -85,7 +86,9 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterView
             });
 
             tvEpisodes.setOnClickListener(view -> {
-
+                mContext.startActivity(new Intent(mContext, EpisodesActivity.class)
+                        .putExtra(Constants.KEY, tvName.getText().toString().trim())
+                );
             });
         }
     }

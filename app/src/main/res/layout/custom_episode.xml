@@ -99,7 +99,7 @@
                 android:layout_weight="1"
                 android:drawableEnd="@drawable/ic_student"
                 android:gravity="center"
-                android:text="قائمة الطلية"
+                android:text="قائمة الطلبة"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 

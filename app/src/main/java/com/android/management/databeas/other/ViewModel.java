@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.android.management.model.Branch;
 import com.android.management.model.Center;
+import com.android.management.model.Episodes;
 import com.android.management.model.User;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class ViewModel extends AndroidViewModel {
         return repository.insertUser(users);
     }
 
-    public int updateUser(User users) {
+    public long updateUser(User users) {
         return repository.updateUser(users);
     }
 
@@ -62,8 +64,20 @@ public class ViewModel extends AndroidViewModel {
         return repository.getManagersName();
     }
 
+    public List<String> getAdminsName() {
+        return repository.getAdminsName();
+    }
+
     public LiveData<List<User>> getStudents() {
         return repository.getStudents();
+    }
+
+    public LiveData<List<User>> getStudentsByEpisodes(String episodeName) {
+        return repository.getStudentsByEpisodes(episodeName);
+    }
+
+    public LiveData<List<User>> getWalletsByEpisodes(String episodeName) {
+        return repository.getWalletsByEpisodes(episodeName);
     }
 
     public LiveData<List<User>> getWallets() {
@@ -80,7 +94,7 @@ public class ViewModel extends AndroidViewModel {
         return repository.insertCenter(model);
     }
 
-    public int updateCenter(Center model) {
+    public long updateCenter(Center model) {
         return repository.updateCenter(model);
     }
 
@@ -94,6 +108,58 @@ public class ViewModel extends AndroidViewModel {
 
     public List<String> getAllCenterName() {
         return repository.getAllCenterName();
+    }
+
+    // TODO : Branch Queries
+
+    public long insertBranch(Branch model) {
+        return repository.insertBranch(model);
+    }
+
+    public long updateBranch(Branch model) {
+        return repository.updateBranch(model);
+    }
+
+    public int deleteBranch(Branch model) {
+        return repository.deleteBranch(model);
+    }
+
+    public LiveData<List<Branch>> getAllBranch() {
+        return repository.getAllBranch();
+    }
+
+    public List<String> getAllBranchName() {
+        return repository.getAllBranchName();
+    }
+
+    // TODO : Episodes Queries
+
+    public long insertEpisodes(Episodes model) {
+        return repository.insertEpisodes(model);
+    }
+
+    public long updateEpisodes(Episodes model) {
+        return repository.updateEpisodes(model);
+    }
+
+    public int deleteEpisodes(Episodes model) {
+        return repository.deleteEpisodes(model);
+    }
+
+    public LiveData<List<Episodes>> getAllEpisodes() {
+        return repository.getAllEpisodes();
+    }
+
+    public LiveData<List<Episodes>> getEpisodesByCenter(String centerName) {
+        return repository.getEpisodesByCenter(centerName);
+    }
+
+    public LiveData<List<Episodes>> getEpisodesByAdmin(String adminName) {
+        return repository.getEpisodesByAdmin(adminName);
+    }
+
+    public List<String> getAllEpisodesName() {
+        return repository.getAllEpisodesName();
     }
 
 }

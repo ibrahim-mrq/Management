@@ -6,15 +6,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.management.R;
 import com.android.management.controller.adapter.EpisodesAdapter;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Episodes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,9 +33,11 @@ public class EpisodesActivity extends AppCompatActivity implements SwipeRefreshL
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private FloatingActionButton fab;
+    private TextView tv_empty;
 
     private ArrayList<Episodes> list = new ArrayList<>();
     private EpisodesAdapter adapter;
+    private ViewModel viewModel;
     private String center_name = "";
 
     @Override
@@ -44,6 +49,9 @@ public class EpisodesActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     private void initView() {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+        center_name = getIntent().getStringExtra(Constants.KEY);
+
         toolbar = findViewById(R.id.toolbar);
         tvTool = findViewById(R.id.tv_tool);
         imgBackTool = findViewById(R.id.img_back_tool);
@@ -51,6 +59,7 @@ public class EpisodesActivity extends AppCompatActivity implements SwipeRefreshL
         recyclerView = findViewById(R.id.recycler_view);
         progressBar = findViewById(R.id.progressBar);
         fab = findViewById(R.id.fab);
+        tv_empty = findViewById(R.id.textView_empty);
         swipeToRefresh.setOnRefreshListener(this);
 
         tvTool.setText(getString(R.string.episodes));
@@ -72,17 +81,18 @@ public class EpisodesActivity extends AppCompatActivity implements SwipeRefreshL
 
     private void initEpisodes(String center_name) {
         progressBar.setVisibility(View.VISIBLE);
-        list.clear();
-        String imagePath = "android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.logo;
-        for (int i = 0; i < 10; i++) {
-            list.add(new Episodes(i, "a" + i, "admin", "center_name",
-                    "مركز التحفيظ", 1, 1, 10
-                    , "مركز التحفيظ مركز التحفيظ مركز التحفيظ مركز التحفيظ مركز التحفيظ ",
-                    "gaza", imagePath));
-        }
-        progressBar.setVisibility(View.GONE);
-        swipeToRefresh.setRefreshing(false);
-        adapter.notifyDataSetChanged();
+        viewModel.getEpisodesByCenter(center_name).observe(this, episodes -> {
+            progressBar.setVisibility(View.GONE);
+            swipeToRefresh.setRefreshing(false);
+            if (episodes.isEmpty()) {
+                tv_empty.setVisibility(View.VISIBLE);
+            } else {
+                tv_empty.setVisibility(View.GONE);
+                list.clear();
+                list.addAll(episodes);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

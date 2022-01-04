@@ -2,28 +2,36 @@ package com.android.management.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.management.R;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
+import com.android.management.model.Center;
 import com.android.management.model.Episodes;
 import com.android.management.model.User;
+import com.android.management.model.Validity;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Calendar;
 
 public class WalletDetailActivity extends BaseActivity {
 
@@ -35,6 +43,8 @@ public class WalletDetailActivity extends BaseActivity {
     private ImageView imgCamera;
     private TextInputLayout tvName;
     private TextInputEditText etName;
+    private TextInputLayout tvId;
+    private TextInputEditText etId;
     private TextInputLayout tvAddress;
     private TextInputEditText etAddress;
     private TextInputLayout tvPhone;
@@ -52,6 +62,7 @@ public class WalletDetailActivity extends BaseActivity {
 
     private String type = "";
     private String path = "";
+    private ViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +73,9 @@ public class WalletDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+        type = getIntent().getStringExtra(Constants.KEY);
+
         toolbar = findViewById(R.id.toolbar);
         tvTool = findViewById(R.id.tv_tool);
         imgBackTool = findViewById(R.id.img_back_tool);
@@ -70,6 +84,8 @@ public class WalletDetailActivity extends BaseActivity {
         imgCamera = findViewById(R.id.walletDetail_img_camera);
         tvName = findViewById(R.id.walletDetail_tv_name);
         etName = findViewById(R.id.walletDetail_et_name);
+        tvId = findViewById(R.id.walletDetail_tv_id);
+        etId = findViewById(R.id.walletDetail_et_id);
         tvAddress = findViewById(R.id.walletDetail_tv_address);
         etAddress = findViewById(R.id.walletDetail_et_address);
         tvPhone = findViewById(R.id.walletDetail_tv_phone);
@@ -89,11 +105,13 @@ public class WalletDetailActivity extends BaseActivity {
 
         if (type.equals(Constants.TYPE_ADD)) {
             imgDelete.setVisibility(View.GONE);
-            tvTool.setText("اضافة حلقة جديدة");
+            tvTool.setText("اضافة محفظ جديد");
+            btn_save.setOnClickListener(view -> addWallet());
         } else {
-            tvTool.setText("تعديل بيانات الحلقة");
+            tvTool.setText("تعديل بيانات المحفظ");
             User model = (User) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
+            btn_save.setOnClickListener(view -> editWallet());
         }
 
         imgCamera.setOnClickListener(v ->
@@ -104,20 +122,94 @@ public class WalletDetailActivity extends BaseActivity {
                         .start(Constants.REQUEST_GALLERY_CODE)
         );
 
-        btn_save.setOnClickListener(view -> {
-        });
-
     }
 
     private void initData(User model) {
         Glide.with(this).load(model.getPhoto()).placeholder(R.drawable.logo).into(image);
         etName.setText(model.getFullName());
+        etId.setText(model.getP_id());
         etAddress.setText(model.getAddress());
         etPhone.setText(model.getPhone());
         etPassword.setText(model.getPassword());
         etBranch.setText(model.getBranch_name());
         etEpisode.setText(model.getEpisode_name());
         etCenter.setText(model.getCenter_name());
+    }
+
+    private void addWallet() {
+        if (isNotEmpty(etName, tvName)
+                && isNotEmpty(etId, tvId)
+                && isNotEmpty(etAddress, tvAddress)
+                && isNotEmpty(etPhone, tvPhone)
+                && isNotEmpty(etPassword, tvPassword)
+                && isNotEmpty(etBranch, tvBranch)
+                && isNotEmpty(etEpisode, tvEpisode)
+                && isNotEmpty(etCenter, tvCenter)
+                && isImageNotEmpty(path)
+        ) {
+            enableElements(false);
+            User model = new User(
+                    etId.getText().toString().trim(),
+                    etName.getText().toString().trim(),
+                    "",
+                    etPhone.getText().toString().trim(),
+                    Calendar.getInstance().getTime(),
+                    etAddress.getText().toString().trim(),
+                    etBranch.getText().toString().trim(),
+                    etCenter.getText().toString().trim(),
+                    etEpisode.getText().toString().trim(),
+                    etPassword.getText().toString().trim(),
+                    Validity.Wallet,
+                    path
+            );
+            long isInsert = viewModel.insertUser(model);
+            new Handler().postDelayed(() -> {
+                if (isInsert > -1) {
+                    finish();
+                } else {
+                    Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+                enableElements(true);
+            }, 1000);
+        }
+    }
+
+    private void editWallet() {
+        if (isNotEmpty(etName, tvName)
+                && isNotEmpty(etId, tvId)
+                && isNotEmpty(etAddress, tvAddress)
+                && isNotEmpty(etPhone, tvPhone)
+                && isNotEmpty(etPassword, tvPassword)
+                && isNotEmpty(etBranch, tvBranch)
+                && isNotEmpty(etEpisode, tvEpisode)
+                && isNotEmpty(etCenter, tvCenter)
+                && isImageNotEmpty(path)
+        ) {
+            enableElements(false);
+            User model = new User(
+                    etId.getText().toString().trim(),
+                    etName.getText().toString().trim(),
+                    "",
+                    etPhone.getText().toString().trim(),
+                    Calendar.getInstance().getTime(),
+                    etAddress.getText().toString().trim(),
+                    etBranch.getText().toString().trim(),
+                    etCenter.getText().toString().trim(),
+                    etEpisode.getText().toString().trim(),
+                    etPassword.getText().toString().trim(),
+                    Validity.Wallet,
+                    path
+            );
+            long isInsert = viewModel.updateUser(model);
+            new Handler().postDelayed(() -> {
+                if (isInsert > -1) {
+                    finish();
+                } else {
+                    Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+                enableElements(true);
+            }, 1000);
+        }
     }
 
     private void enableElements(boolean enable) {
@@ -134,6 +226,7 @@ public class WalletDetailActivity extends BaseActivity {
         imgDelete.setEnabled(enable);
         imgCamera.setEnabled(enable);
         etName.setEnabled(enable);
+        etId.setEnabled(enable);
         etAddress.setEnabled(enable);
         etPhone.setEnabled(enable);
         etPassword.setEnabled(enable);
@@ -159,4 +252,5 @@ public class WalletDetailActivity extends BaseActivity {
         super.onBackPressed();
         finish();
     }
+
 }

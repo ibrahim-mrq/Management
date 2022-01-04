@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.management.R;
 import com.android.management.controller.adapter.WalletAdapter;
+import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.Constants;
 import com.android.management.model.User;
 import com.android.management.model.Validity;
@@ -32,9 +34,11 @@ public class WalletActivity extends AppCompatActivity implements SwipeRefreshLay
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private FloatingActionButton fab;
+    private TextView tv_empty;
 
     private ArrayList<User> list = new ArrayList<>();
     private WalletAdapter adapter;
+    private ViewModel viewModel;
     private String episode_name = "";
 
     @Override
@@ -46,6 +50,9 @@ public class WalletActivity extends AppCompatActivity implements SwipeRefreshLay
     }
 
     private void initView() {
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+        episode_name = getIntent().getStringExtra(Constants.KEY);
+
         toolbar = findViewById(R.id.toolbar);
         tvTool = findViewById(R.id.tv_tool);
         imgBackTool = findViewById(R.id.img_back_tool);
@@ -53,8 +60,9 @@ public class WalletActivity extends AppCompatActivity implements SwipeRefreshLay
         recyclerView = findViewById(R.id.recycler_view);
         progressBar = findViewById(R.id.progressBar);
         fab = findViewById(R.id.fab);
-
+        tv_empty = findViewById(R.id.textView_empty);
         swipeToRefresh.setOnRefreshListener(this);
+
         tvTool.setText(getString(R.string.wallets));
         imgBackTool.setOnClickListener(view -> onBackPressed());
 
@@ -75,16 +83,18 @@ public class WalletActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initWallet(String episode_name) {
         progressBar.setVisibility(View.VISIBLE);
-        list.clear();
-        String imagePath = "android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.logo;
-        for (int i = 0; i < 10; i++) {
-            list.add(new User( "asd", "a" + i, "admin", "center_name",
-                    new Date(), "address", "مركز التحفيظ",
-                    "center", "episode", "pass", Validity.Admin, imagePath));
-        }
-        progressBar.setVisibility(View.GONE);
-        swipeToRefresh.setRefreshing(false);
-        adapter.notifyDataSetChanged();
+        viewModel.getWalletsByEpisodes(episode_name).observe(this, episodes -> {
+            progressBar.setVisibility(View.GONE);
+            swipeToRefresh.setRefreshing(false);
+            if (episodes.isEmpty()) {
+                tv_empty.setVisibility(View.VISIBLE);
+            } else {
+                tv_empty.setVisibility(View.GONE);
+                list.clear();
+                list.addAll(episodes);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
