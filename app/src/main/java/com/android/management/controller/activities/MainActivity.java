@@ -24,18 +24,21 @@ import android.widget.Toast;
 
 import com.android.management.R;
 import com.android.management.controller.fragments.AdminsFragment;
+import com.android.management.controller.fragments.AdsFragment;
 import com.android.management.controller.fragments.CenterFragment;
 import com.android.management.controller.fragments.EpisodesFragment;
 import com.android.management.controller.fragments.HomeFragment;
 import com.android.management.controller.fragments.StudentsFragment;
 import com.android.management.controller.fragments.WalletsFragment;
 import com.android.management.databeas.other.ViewModel;
+import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
+import com.android.management.helpers.LocaleHelper;
 import com.google.android.material.navigation.NavigationView;
 import com.orhanobut.hawk.Hawk;
 
 @SuppressLint("StaticFieldLeak")
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     public static Context context;
     private Toolbar toolbar;
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this, Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
         setContentView(R.layout.activity_main);
 
         initView(savedInstanceState);
@@ -111,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
 //                    break;
                 case R.id.nav_students:
                     replaceFragment(new StudentsFragment());
+                    break;
+                case R.id.nav_ads:
+                    replaceFragment(new AdsFragment());
                     break;
                 case R.id.nav_logout:
                     Constants.logout(this);

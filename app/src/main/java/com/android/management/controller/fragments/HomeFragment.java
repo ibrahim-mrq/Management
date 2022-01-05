@@ -10,8 +10,9 @@ import androidx.fragment.app.Fragment;
 
 import com.android.management.R;
 import com.android.management.controller.activities.MainActivity;
+import com.android.management.helpers.BaseFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     public HomeFragment() {
         // Required empty public constructor

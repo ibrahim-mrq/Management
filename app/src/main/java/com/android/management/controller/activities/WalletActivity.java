@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.management.R;
 import com.android.management.controller.adapter.WalletAdapter;
 import com.android.management.databeas.other.ViewModel;
+import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.User;
 import com.android.management.model.Validity;
@@ -25,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WalletActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private Toolbar toolbar;
     private TextView tvTool;

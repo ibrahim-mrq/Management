@@ -7,51 +7,58 @@ import androidx.room.TypeConverters;
 
 import com.android.management.helpers.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(foreignKeys = {
         @ForeignKey(
-                entity = User.class,
-                parentColumns = {"id"},
-                childColumns = {"publisher_id"},
-                onUpdate = ForeignKey.CASCADE,
-                onDelete = ForeignKey.CASCADE),
-        @ForeignKey(
                 entity = Center.class,
-                parentColumns = {"id"},
-                childColumns = {"center_id"},
+                parentColumns = {"name"},
+                childColumns = {"center_name"},
                 onUpdate = ForeignKey.CASCADE,
                 onDelete = ForeignKey.CASCADE),
         @ForeignKey(
                 entity = Episodes.class,
-                parentColumns = {"id"},
-                childColumns = {"episode_id"},
+                parentColumns = {"name"},
+                childColumns = {"episode_name"},
                 onUpdate = ForeignKey.CASCADE,
                 onDelete = ForeignKey.CASCADE)
 
 })
 @TypeConverters({DateConverter.class})
-public class Ads {
+public class Ads implements Serializable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private Date date;
     private String content;
-    private int publisher_id;
-    private int center_id;
-    private int episode_id;
+    private String publisher_name;
+    private String center_name;
+    private String episode_name;
+    private String photo;
 
     public Ads() {
     }
 
-    public Ads(int id, Date date, String content, int publisher_id,
-               int center_id, int episode_id) {
+    public Ads(int id, Date date, String content, String publisher_name,
+               String center_name, String episode_nam, String photo) {
         this.id = id;
         this.date = date;
         this.content = content;
-        this.publisher_id = publisher_id;
-        this.center_id = center_id;
-        this.episode_id = episode_id;
+        this.publisher_name = publisher_name;
+        this.center_name = center_name;
+        this.episode_name = episode_name;
+        this.photo = photo;
+    }
+
+    public Ads(Date date, String content, String publisher_name, String center_name,
+               String episode_name, String photo) {
+        this.date = date;
+        this.content = content;
+        this.publisher_name = publisher_name;
+        this.center_name = center_name;
+        this.episode_name = episode_name;
+        this.photo = photo;
     }
 
     public int getId() {
@@ -78,27 +85,35 @@ public class Ads {
         this.content = content;
     }
 
-    public int getPublisher_id() {
-        return publisher_id;
+    public String getPublisher_name() {
+        return publisher_name;
     }
 
-    public void setPublisher_id(int publisher_id) {
-        this.publisher_id = publisher_id;
+    public void setPublisher_name(String publisher_name) {
+        this.publisher_name = publisher_name;
     }
 
-    public int getCenter_id() {
-        return center_id;
+    public String getCenter_name() {
+        return center_name;
     }
 
-    public void setCenter_id(int center_id) {
-        this.center_id = center_id;
+    public void setCenter_name(String center_name) {
+        this.center_name = center_name;
     }
 
-    public int getEpisode_id() {
-        return episode_id;
+    public String getEpisode_name() {
+        return episode_name;
     }
 
-    public void setEpisode_id(int episode_id) {
-        this.episode_id = episode_id;
+    public void setEpisode_name(String episode_name) {
+        this.episode_name = episode_name;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

@@ -8,11 +8,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.android.management.databeas.DAO.AdsDAO;
 import com.android.management.databeas.DAO.BranchDAO;
 import com.android.management.databeas.DAO.CenterDAO;
 import com.android.management.databeas.DAO.EpisodesDAO;
 import com.android.management.databeas.DAO.TaskDAO;
 import com.android.management.databeas.DAO.UserDAO;
+import com.android.management.model.Ads;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
@@ -26,7 +28,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Branch.class, User.class, Center.class, Episodes.class, Task.class},
+@Database(entities = {Branch.class, User.class, Center.class, Episodes.class, Task.class, Ads.class},
         version = 1, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
 
@@ -40,6 +42,8 @@ public abstract class MyDatabase extends RoomDatabase {
 
     public abstract TaskDAO taskDAO();
 
+    public abstract AdsDAO adsDAO();
+
     private static volatile MyDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
@@ -52,7 +56,7 @@ public abstract class MyDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             MyDatabase.class, "management_db")
                             .addCallback(callback)
-//                            .fallbackToDestructiveMigration()
+                            .fallbackToDestructiveMigration()
                             .allowMainThreadQueries()
                             .build();
                 }
@@ -71,6 +75,7 @@ public abstract class MyDatabase extends RoomDatabase {
                 insertBranch();
                 insertEpisodes();
                 insertTask();
+                insertAds();
             });
         }
     };
@@ -147,6 +152,20 @@ public abstract class MyDatabase extends RoomDatabase {
                 "صفحة", 0, "ملاحظات ملاحظات ملاحظات "));
 
         INSTANCE.taskDAO().insertTask(list);
+    }
+
+    private static void insertAds() {
+        ArrayList<Ads> list = new ArrayList<>();
+        list.add(new Ads(
+                Calendar.getInstance().getTime(),
+                "اهلا بك في اعلاننا الجميل", "احمد",
+                "مركز علي بن ابي طالب", "حلقة القدس", ""));
+        list.add(new Ads(
+                Calendar.getInstance().getTime(),
+                "اهلا بك في اعلاننا الجميل 2", "احمد", "مركز علي بن ابي طالب",
+                "حلقة القدس", ""));
+
+        INSTANCE.adsDAO().insertAds(list);
     }
 
 }

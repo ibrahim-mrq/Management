@@ -22,13 +22,14 @@ import com.android.management.controller.activities.MainActivity;
 import com.android.management.controller.adapter.StudentAdapter;
 import com.android.management.controller.adapter.WalletAdapter;
 import com.android.management.databeas.other.ViewModel;
+import com.android.management.helpers.BaseFragment;
 import com.android.management.helpers.Constants;
 import com.android.management.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class WalletsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class WalletsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public WalletsFragment() {
         // Required empty public constructor
@@ -54,7 +55,6 @@ public class WalletsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         return root;
     }
-
 
     private void initView(View root) {
         viewModel = new ViewModelProvider(this).get(ViewModel.class);

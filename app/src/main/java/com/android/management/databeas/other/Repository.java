@@ -4,11 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.android.management.databeas.DAO.AdsDAO;
 import com.android.management.databeas.DAO.BranchDAO;
 import com.android.management.databeas.DAO.CenterDAO;
 import com.android.management.databeas.DAO.EpisodesDAO;
 import com.android.management.databeas.DAO.TaskDAO;
 import com.android.management.databeas.DAO.UserDAO;
+import com.android.management.model.Ads;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
@@ -24,6 +26,7 @@ public class Repository {
     BranchDAO branchDAO;
     EpisodesDAO episodesDAO;
     TaskDAO taskDAO;
+    AdsDAO adsDAO;
 
     public Repository(Application application) {
         MyDatabase db = MyDatabase.getDatabase(application);
@@ -32,6 +35,7 @@ public class Repository {
         branchDAO = db.branchDAO();
         episodesDAO = db.episodesDAO();
         taskDAO = db.taskDAO();
+        adsDAO = db.adsDAO();
     }
 
     // TODO : USER Queries
@@ -199,10 +203,31 @@ public class Repository {
     public LiveData<List<Task>> getAllTask() {
         return taskDAO.getAllTask();
     }
+
     public LiveData<List<Task>> getAllTaskByName(String student_name) {
         return taskDAO.getAllTaskByName(student_name);
     }
 
+    // TODO : Task Queries
 
+    public long insertAds(Ads model) {
+        return adsDAO.insertAds(model);
+    }
+
+    public int updateAds(Ads model) {
+        return adsDAO.updateAds(model);
+    }
+
+    public int deleteAds(Ads model) {
+        return adsDAO.deleteAds(model);
+    }
+
+    public LiveData<List<Ads>> getAllAds() {
+        return adsDAO.getAllAds();
+    }
+
+    public LiveData<List<Ads>> getAllAdsByCenter(String student_name) {
+        return adsDAO.getAllAdsByCenter(student_name);
+    }
 
 }

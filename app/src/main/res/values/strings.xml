@@ -59,5 +59,6 @@
     <string name="from_date">From date</string>
     <string name="to_date">To date</string>
     <string name="validity">validity</string>
+    <string name="ads">Ads</string>
 
 </resources>

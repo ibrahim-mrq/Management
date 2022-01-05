@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,7 +19,7 @@ import com.android.management.R;
 import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
-import com.android.management.helpers.LocaleUtils;
+import com.android.management.helpers.LocaleHelper;
 import com.android.management.model.User;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -92,14 +91,14 @@ public class SettingActivity extends BaseActivity {
                 case 0:
                     Hawk.put(Constants.LANGUAGE, "English");
                     Hawk.put(Constants.LANGUAGE_TYPE, "en");
-                    LocaleUtils.setLocale(this, "en");
+                    LocaleHelper.setLocale(this, "en");
                     startActivity(new Intent(this, SplashActivity.class));
                     finish();
                     break;
                 case 1:
                     Hawk.put(Constants.LANGUAGE, "العربية");
                     Hawk.put(Constants.LANGUAGE_TYPE, "ar");
-                    LocaleUtils.setLocale(this, "ar");
+                    LocaleHelper.setLocale(this, "ar");
                     startActivity(new Intent(this, SplashActivity.class));
                     finish();
                     break;

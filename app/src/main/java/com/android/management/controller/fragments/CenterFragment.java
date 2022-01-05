@@ -21,6 +21,7 @@ import com.android.management.controller.activities.CenterDetailActivity;
 import com.android.management.controller.activities.MainActivity;
 import com.android.management.controller.adapter.CenterAdapter;
 import com.android.management.databeas.other.ViewModel;
+import com.android.management.helpers.BaseFragment;
 import com.android.management.helpers.Constants;
 import com.android.management.model.Center;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,7 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CenterFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout swipeToRefresh;
     private RecyclerView recyclerView;
@@ -88,7 +89,6 @@ public class CenterFragment extends Fragment implements SwipeRefreshLayout.OnRef
             swipeToRefresh.setRefreshing(false);
             if (centers.isEmpty()) {
                 tv_empty.setVisibility(View.VISIBLE);
-                Toast.makeText(requireActivity(), "empty", Toast.LENGTH_SHORT).show();
             } else {
                 tv_empty.setVisibility(View.GONE);
                 list.clear();

@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-
+        <activity android:name=".controller.activities.AdsDetailActivity"></activity>
         <activity
             android:name=".controller.activities.SplashActivity"
             android:exported="true">

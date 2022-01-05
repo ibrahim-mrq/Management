@@ -7,16 +7,17 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.android.management.R;
+import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
-import com.android.management.helpers.LocaleUtils;
+import com.android.management.helpers.LocaleHelper;
 import com.orhanobut.hawk.Hawk;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        LocaleUtils.setLocale(getApplicationContext(), Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
+        LocaleHelper.setLocale(getApplicationContext(), Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {

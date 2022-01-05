@@ -11,13 +11,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.management.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.orhanobut.hawk.Hawk;
 
 public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(getApplicationContext(),
+                Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocaleHelper.setLocale(getApplicationContext(),
+                Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
     }
 
     public Boolean isNotEmpty(TextInputEditText editText, TextInputLayout textInputLayout) {
@@ -72,6 +81,7 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         }
     }
+
     public Boolean isImageNotEmpty(String text) {
         if (text.trim().isEmpty()) {
             Toast.makeText(this, getString(R.string.empty_image_path), Toast.LENGTH_SHORT).show();

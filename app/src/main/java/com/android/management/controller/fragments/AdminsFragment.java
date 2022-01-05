@@ -21,13 +21,14 @@ import com.android.management.controller.activities.EpisodeDetailActivity;
 import com.android.management.controller.activities.MainActivity;
 import com.android.management.controller.adapter.StudentAdapter;
 import com.android.management.databeas.other.ViewModel;
+import com.android.management.helpers.BaseFragment;
 import com.android.management.helpers.Constants;
 import com.android.management.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class AdminsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AdminsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public AdminsFragment() {
         // Required empty public constructor
@@ -88,7 +89,6 @@ public class AdminsFragment extends Fragment implements SwipeRefreshLayout.OnRef
             swipeToRefresh.setRefreshing(false);
             if (users.isEmpty()) {
                 tv_empty.setVisibility(View.VISIBLE);
-                Toast.makeText(requireActivity(), "empty", Toast.LENGTH_SHORT).show();
             } else {
                 tv_empty.setVisibility(View.GONE);
                 list.clear();

@@ -13,7 +13,7 @@ public class MyApplication extends Application {
         //Hawk
         Hawk.init(getApplicationContext()).build();
 
-        LocaleUtils.setLocale(getApplicationContext(), Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
+        LocaleHelper.setLocale(getApplicationContext(), Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
 
     }
 

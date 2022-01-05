@@ -1,13 +1,9 @@
 package com.android.management.controller.fragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,23 +11,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.management.R;
+import com.android.management.controller.activities.AdsDetailActivity;
 import com.android.management.controller.activities.EpisodeDetailActivity;
 import com.android.management.controller.activities.MainActivity;
-import com.android.management.controller.adapter.EpisodesAdapter;
-import com.android.management.controller.adapter.StudentAdapter;
+import com.android.management.controller.adapter.AdsAdapter;
+import com.android.management.controller.adapter.WalletAdapter;
 import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseFragment;
 import com.android.management.helpers.Constants;
-import com.android.management.model.Episodes;
+import com.android.management.model.Ads;
+import com.android.management.model.Center;
 import com.android.management.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class StudentsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AdsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    public StudentsFragment() {
+    public AdsFragment() {
         // Required empty public constructor
     }
 
@@ -41,15 +46,15 @@ public class StudentsFragment extends BaseFragment implements SwipeRefreshLayout
     private FloatingActionButton fab;
     private TextView tv_empty;
 
-    private ArrayList<User> list = new ArrayList<>();
-    private StudentAdapter adapter;
+    private ArrayList<Ads> list = new ArrayList<>();
+    private AdsAdapter adapter;
     private ViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_students, container, false);
+        View root = inflater.inflate(R.layout.fragment_ads, container, false);
 
         initView(root);
 
@@ -68,38 +73,64 @@ public class StudentsFragment extends BaseFragment implements SwipeRefreshLayout
         tv_empty = root.findViewById(R.id.textView_empty);
         swipeToRefresh.setOnRefreshListener(this);
 
-        adapter = new StudentAdapter(list, requireActivity());
+        adapter = new AdsAdapter(list, requireActivity(), model -> {
+            dialogDelete(requireActivity(), model);
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        initEpisodes();
+        initAds();
 
-        fab.setOnClickListener(view -> {
-            startActivity(new Intent(requireActivity(), EpisodeDetailActivity.class)
-                    .putExtra(Constants.KEY, Constants.TYPE_ADD)
-            );
-        });
+//        fab.setOnClickListener(view -> {
+//            startActivity(new Intent(requireActivity(), AdsDetailActivity.class)
+//                    .putExtra(Constants.KEY, Constants.TYPE_ADD)
+//            );
+//        });
 
     }
 
-    private void initEpisodes() {
+    private void initAds() {
         progressBar.setVisibility(View.VISIBLE);
-        viewModel.getStudents().observe(requireActivity(), users -> {
+        viewModel.getAllAds().observe(requireActivity(), ads -> {
             progressBar.setVisibility(View.GONE);
             swipeToRefresh.setRefreshing(false);
-            if (users.isEmpty()) {
+            if (ads.isEmpty()) {
                 tv_empty.setVisibility(View.VISIBLE);
             } else {
                 tv_empty.setVisibility(View.GONE);
                 list.clear();
-                list.addAll(users);
+                list.addAll(ads);
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
+    private void dialogDelete(Context context, Ads model) {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.delete_item)
+                .setMessage(R.string.delete_item_sure)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    int isDeleted = viewModel.deleteAds(model);
+                    if (isDeleted > 0) {
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(requireActivity(), getString(R.string.error),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, (dialog, i) -> {
+                    dialog.dismiss();
+                })
+                .setNeutralButton(android.R.string.cancel, (dialog, i) -> {
+                    dialog.dismiss();
+                })
+                .setIcon(R.drawable.ic_delete)
+                .show();
+    }
+
     @Override
     public void onRefresh() {
-        initEpisodes();
+        initAds();
     }
+
 }

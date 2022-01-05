@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.android.management.model.Ads;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
@@ -188,7 +189,31 @@ public class ViewModel extends AndroidViewModel {
     public LiveData<List<Task>> getAllTask() {
         return repository.getAllTask();
     }
+
     public LiveData<List<Task>> getAllTaskByName(String student_name) {
         return repository.getAllTaskByName(student_name);
     }
+
+    // TODO : Task Queries
+
+    public long insertAds(Ads model) {
+        return repository.insertAds(model);
+    }
+
+    public int updateAds(Ads model) {
+        return repository.updateAds(model);
+    }
+
+    public int deleteAds(Ads model) {
+        return repository.deleteAds(model);
+    }
+
+    public LiveData<List<Ads>> getAllAds() {
+        return repository.getAllAds();
+    }
+
+    public LiveData<List<Ads>> getAllAdsByCenter(String student_name) {
+        return repository.getAllAdsByCenter(student_name);
+    }
+
 }
