@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.management.R;
 import com.android.management.controller.activities.CenterDetailActivity;
 import com.android.management.controller.activities.StudentDetailActivity;
+import com.android.management.controller.activities.TaskActivity;
 import com.android.management.helpers.Constants;
 import com.android.management.model.User;
 import com.bumptech.glide.Glide;
@@ -93,6 +94,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
                         .putExtra(Constants.KEY, Constants.TYPE_EDIT)
                         .putExtra(Constants.TYPE_MODEL, model)
                 );
+            });
+
+            tvTasks.setOnClickListener(view -> {
+                mContext.startActivity(new Intent(mContext, TaskActivity.class)
+                        .putExtra(Constants.KEY, model.getFullName()));
             });
         }
     }

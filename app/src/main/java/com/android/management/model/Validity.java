@@ -2,18 +2,18 @@ package com.android.management.model;
 
 public enum Validity {
 
-    Manager(0),
-    Admin(1),
-    Wallet(2),
-    Student(3);
+    Manager("Manager"),
+    Admin("Admin"),
+    Wallet("Wallet"),
+    Student("Student");
 
-    private final int value;
+    private final String value;
 
-    private Validity(int value) {
+    Validity(String value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 }

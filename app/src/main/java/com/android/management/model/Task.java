@@ -23,8 +23,8 @@ public class Task implements Serializable {
     private String host_name;
     private String tester_name;
     private Date task_end;
-    private Date from;
-    private Date to;
+    private String from;
+    private String to;
     private String type;
     private int evaluation;
     private String notes;
@@ -33,7 +33,7 @@ public class Task implements Serializable {
     }
 
     public Task(int id, String student_name, String episodes_name, String center_name,
-                String host_name, String tester_name, Date task_end, Date from, Date to, String type,
+                String host_name, String tester_name, Date task_end, String from, String to, String type,
                 int evaluation, String notes) {
         this.id = id;
         this.student_name = student_name;
@@ -50,7 +50,7 @@ public class Task implements Serializable {
     }
 
     public Task(String student_name, String episodes_name, String center_name, String host_name,
-                String tester_name, Date task_end, Date from, Date to,
+                String tester_name, Date task_end, String from, String to,
                 String type, int evaluation, String notes) {
         this.student_name = student_name;
         this.episodes_name = episodes_name;
@@ -121,20 +121,19 @@ public class Task implements Serializable {
         this.task_end = task_end;
     }
 
-
-    public Date getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public Date getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(Date to) {
+    public void setTo(String to) {
         this.to = to;
     }
 

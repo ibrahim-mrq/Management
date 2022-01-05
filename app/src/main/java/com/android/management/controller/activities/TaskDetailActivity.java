@@ -25,14 +25,18 @@ import com.android.management.R;
 import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
+import com.android.management.helpers.DateConverter;
 import com.android.management.model.Episodes;
 import com.android.management.model.Task;
+import com.android.management.model.User;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.orhanobut.hawk.Hawk;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,6 +54,8 @@ public class TaskDetailActivity extends BaseActivity {
     private TextInputEditText etTo;
     private TextInputLayout tvRate;
     private TextInputEditText etRate;
+    private TextInputLayout tvHostName;
+    private TextInputEditText etHostName;
     private TextInputLayout tvTester;
     private AutoCompleteTextView etTester;
     private TextInputLayout tvEpisode;
@@ -64,6 +70,7 @@ public class TaskDetailActivity extends BaseActivity {
     private SpinKitView progressBar;
     private FloatingActionButton fab;
 
+    private Calendar calendar;
     private String type = "";
     private String student_name = "";
     private ViewModel viewModel;
@@ -92,6 +99,8 @@ public class TaskDetailActivity extends BaseActivity {
         etTo = findViewById(R.id.taskDetail_et_to);
         tvRate = findViewById(R.id.taskDetail_tv_rate);
         etRate = findViewById(R.id.taskDetail_et_rate);
+        tvHostName = findViewById(R.id.taskDetail_tv_host_name);
+        etHostName = findViewById(R.id.taskDetail_et_host_name);
         tvTester = findViewById(R.id.taskDetail_tv_tester);
         etTester = findViewById(R.id.taskDetail_et_tester);
         tvEpisode = findViewById(R.id.taskDetail_tv_episode);
@@ -112,6 +121,8 @@ public class TaskDetailActivity extends BaseActivity {
             fab.setVisibility(View.GONE);
             tvTool.setText("اضافة حلقة جديدة");
             btn_save.setOnClickListener(view -> addTask());
+            User user = Hawk.get(Constants.USER, null);
+            etHostName.setText(user.getFullName() + "");
         } else {
             tvTool.setText("تعديل بيانات الحلقة");
             Task model = (Task) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
@@ -120,8 +131,23 @@ public class TaskDetailActivity extends BaseActivity {
             fab.setOnClickListener(view -> dialogDelete(this, model));
         }
 
+        etEndDate.setOnClickListener(view -> {
+            DatePickerDialog dialog = DatePickerDialog.newInstance((view1, year, monthOfYear, dayOfMonth) -> {
+                etEndDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                setCalendar(year, monthOfYear, dayOfMonth);
+            }, Calendar.getInstance());
+            dialog.show(getSupportFragmentManager(), null);
+        });
+
         setAdapters();
 
+    }
+
+    private void setCalendar(int year, int month, int day) {
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
     }
 
     private void setAdapters() {
@@ -148,13 +174,14 @@ public class TaskDetailActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     private void initData(Task model) {
         etType.setText(model.getType());
-        etFrom.setText(model.getFrom().getTime() + "");
-        etTo.setText(model.getFrom().getTime() + "");
+        etFrom.setText(model.getFrom());
+        etTo.setText(model.getFrom());
         etRate.setText(model.getEvaluation() + "");
+        etHostName.setText(model.getHost_name());
         etTester.setText(model.getTester_name());
         etEpisode.setText(model.getEpisodes_name());
         etCenter.setText(model.getCenter_name());
-        etEndDate.setText(model.getTask_end().getTime() + "");
+        etEndDate.setText(DateConverter.toDate(model.getTask_end().getTime()) + "");
         etNotes.setText(model.getNotes());
     }
 
@@ -163,6 +190,7 @@ public class TaskDetailActivity extends BaseActivity {
                 && isNotEmpty(etFrom, tvFrom)
                 && isNotEmpty(etTo, tvTo)
                 && isNotEmpty(etRate, tvRate)
+                && isNotEmpty(etHostName, tvHostName)
                 && isNotEmpty(etTester, tvTester)
                 && isNotEmpty(etEpisode, tvEpisode)
                 && isNotEmpty(etCenter, tvCenter)
@@ -174,11 +202,11 @@ public class TaskDetailActivity extends BaseActivity {
                     student_name,
                     etEpisode.getText().toString().trim(),
                     etCenter.getText().toString().trim(),
+                    etHostName.getText().toString().trim(),
                     etTester.getText().toString().trim(),
-                    etTester.getText().toString().trim(),
-                    Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(),
+                    calendar.getTime(),
+                    etFrom.getText().toString().trim(),
+                    etTo.getText().toString().trim(),
                     etType.getText().toString().trim(),
                     Integer.parseInt(etRate.getText().toString().trim()),
                     etNotes.getText().toString().trim()
@@ -200,6 +228,7 @@ public class TaskDetailActivity extends BaseActivity {
                 && isNotEmpty(etFrom, tvFrom)
                 && isNotEmpty(etTo, tvTo)
                 && isNotEmpty(etRate, tvRate)
+                && isNotEmpty(etHostName, tvHostName)
                 && isNotEmpty(etTester, tvTester)
                 && isNotEmpty(etEpisode, tvEpisode)
                 && isNotEmpty(etCenter, tvCenter)
@@ -212,11 +241,11 @@ public class TaskDetailActivity extends BaseActivity {
                     task.getStudent_name(),
                     etEpisode.getText().toString().trim(),
                     etCenter.getText().toString().trim(),
+                    etHostName.getText().toString().trim(),
                     etTester.getText().toString().trim(),
-                    etTester.getText().toString().trim(),
-                    Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(),
+                    calendar.getTime(),
+                    etFrom.getText().toString().trim(),
+                    etTo.getText().toString().trim(),
                     etType.getText().toString().trim(),
                     Integer.parseInt(etRate.getText().toString().trim()),
                     etNotes.getText().toString().trim()

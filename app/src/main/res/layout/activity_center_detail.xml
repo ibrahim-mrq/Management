@@ -255,7 +255,7 @@
         android:layout_alignParentBottom="true"
         app:tint="@color/colorWhite"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_arrow_back_2"
         app:backgroundTint="@color/colorGreen"
         app:fabSize="normal"
         tools:ignore="ContentDescription" />

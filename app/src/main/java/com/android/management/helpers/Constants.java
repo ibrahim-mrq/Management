@@ -13,9 +13,8 @@ import com.orhanobut.hawk.Hawk;
 
 public class Constants {
 
-    public final static String USER_TOKEN = "user_token";
-    public final static String USER_ID = "user_id";
-    public final static String USER_NAME = "user_name";
+    public final static String LANGUAGE = "language";
+    public final static String LANGUAGE_TYPE = "language_type";
     public final static String USER = "user";
     public final static String IS_LOGIN = "is_login";
 

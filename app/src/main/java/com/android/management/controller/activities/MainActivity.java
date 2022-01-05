@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -136,7 +137,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return toggle.onOptionsItemSelected(item);
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        } else {
+            switch (item.getItemId()) {
+                case R.id.nav_setting:
+                    startActivity(new Intent(this, SettingActivity.class));
+                    break;
+                case R.id.nav_notification:
+                    break;
+            }
+        }
+//        return toggle.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     private Toast backToasty;

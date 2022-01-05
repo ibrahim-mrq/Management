@@ -125,6 +125,10 @@ public class StudentDetailActivity extends BaseActivity {
             User model = (User) getIntent().getSerializableExtra(Constants.TYPE_MODEL);
             initData(model);
             btn_save.setOnClickListener(view -> editStudent(model));
+            fab.setOnClickListener(view ->
+                    startActivity(new Intent(this, TaskActivity.class)
+                            .putExtra(Constants.KEY, model.getFullName())
+                    ));
         }
 
         imgCamera.setOnClickListener(v ->

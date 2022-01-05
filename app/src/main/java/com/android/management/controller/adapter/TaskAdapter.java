@@ -67,7 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         @SuppressLint("SetTextI18n")
         private void bind(Task model) {
-            customTaskTvDate.setText(DateConverter.fromDate(model.getTask_end()) + "");
+            customTaskTvDate.setText(DateConverter.toDate(model.getTask_end().getTime()) + "");
             customTaskTvHostName.setText(model.getHost_name());
             customTaskTvNotes.setText(model.getNotes());
             customTaskTvRate.setText(model.getEvaluation() + "");

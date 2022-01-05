@@ -11,7 +11,9 @@ public class MyApplication extends Application {
         super.onCreate();
 
         //Hawk
-        Hawk.init(getBaseContext()).build();
+        Hawk.init(getApplicationContext()).build();
+
+        LocaleUtils.setLocale(getApplicationContext(), Hawk.get(Constants.LANGUAGE_TYPE, "ar"));
 
     }
 

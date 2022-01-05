@@ -132,12 +132,13 @@ public class RegisterActivity extends BaseActivity {
             dialog.show(getSupportFragmentManager(), null);
         });
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("hi");
-        list.add("this");
-        list.add("hello");
-        ArrayAdapter<String> branch = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-        registerEtBranch.setAdapter(branch);
+        setAdapters();
+    }
+
+    private void setAdapters() {
+        ArrayAdapter<String> centerBranch = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, viewModel.getAllBranchName());
+        registerEtBranch.setAdapter(centerBranch);
     }
 
     private void setCalendar(int year, int month, int day) {
@@ -236,5 +237,6 @@ public class RegisterActivity extends BaseActivity {
         super.onBackPressed();
         finish();
     }
+
 
 }

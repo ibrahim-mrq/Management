@@ -16,6 +16,7 @@ import com.android.management.databeas.DAO.UserDAO;
 import com.android.management.model.Branch;
 import com.android.management.model.Center;
 import com.android.management.model.Episodes;
+import com.android.management.model.Task;
 import com.android.management.model.User;
 import com.android.management.model.Validity;
 
@@ -25,7 +26,8 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Branch.class, User.class, Center.class, Episodes.class}, version = 1, exportSchema = false)
+@Database(entities = {Branch.class, User.class, Center.class, Episodes.class, Task.class},
+        version = 1, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
 
     public abstract UserDAO userDAO();
@@ -68,6 +70,7 @@ public abstract class MyDatabase extends RoomDatabase {
                 insertCenter();
                 insertBranch();
                 insertEpisodes();
+                insertTask();
             });
         }
     };
@@ -125,4 +128,25 @@ public abstract class MyDatabase extends RoomDatabase {
                 , "شارع الرشيد", ""));
         INSTANCE.episodesDAO().insertEpisodes(branches);
     }
+
+    private static void insertTask() {
+        ArrayList<Task> list = new ArrayList<>();
+        list.add(new Task("نادر", "حلقة القدس", "مركز علي بن ابي طالب",
+                "بلال", "محمد", Calendar.getInstance().getTime(),
+                "15", "30",
+                "صفحة", 3, "ملاحظات ملاحظات ملاحظات "));
+
+        list.add(new Task("نادر", "حلقة القدس", "مركز علي بن ابي طالب",
+                "بلال", "محمد", Calendar.getInstance().getTime(),
+                "100", "155",
+                "صفحة", 5, "ملاحظات ملاحظات ملاحظات "));
+
+        list.add(new Task("نادر", "حلقة القدس", "مركز علي بن ابي طالب",
+                "بلال", "محمد", Calendar.getInstance().getTime(),
+                "60", "90",
+                "صفحة", 0, "ملاحظات ملاحظات ملاحظات "));
+
+        INSTANCE.taskDAO().insertTask(list);
+    }
+
 }

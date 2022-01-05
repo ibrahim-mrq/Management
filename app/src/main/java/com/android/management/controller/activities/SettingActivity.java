@@ -1,9 +1,11 @@
 package com.android.management.controller.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.android.management.R;
 import com.android.management.databeas.other.ViewModel;
 import com.android.management.helpers.BaseActivity;
 import com.android.management.helpers.Constants;
+import com.android.management.helpers.LocaleUtils;
 import com.android.management.model.User;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +31,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 
 public class SettingActivity extends BaseActivity {
 
@@ -60,11 +64,48 @@ public class SettingActivity extends BaseActivity {
         settingTvChangePassword = findViewById(R.id.setting_tv_changePassword);
         settingTvMessage = findViewById(R.id.setting_tv_message);
         settingTvProfile = findViewById(R.id.setting_tv_profile);
-
-        imgBackTool.setOnClickListener(view -> onBackPressed());
         tvTool.setText(getString(R.string.setting));
 
+        setAdapters();
+
+        imgBackTool.setOnClickListener(view -> onBackPressed());
+
         settingTvChangePassword.setOnClickListener(view -> showPopup());
+
+        settingTvProfile.setOnClickListener(view -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+        });
+
+
+    }
+
+    private void setAdapters() {
+        etLanguage.setText(Hawk.get(Constants.LANGUAGE, "English"));
+        ArrayList<String> listType = new ArrayList<>();
+        listType.add("English");
+        listType.add("العربية");
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, listType);
+        etLanguage.setAdapter(typeAdapter);
+        etLanguage.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+            switch (arg2) {
+                case 0:
+                    Hawk.put(Constants.LANGUAGE, "English");
+                    Hawk.put(Constants.LANGUAGE_TYPE, "en");
+                    LocaleUtils.setLocale(this, "en");
+                    startActivity(new Intent(this, SplashActivity.class));
+                    finish();
+                    break;
+                case 1:
+                    Hawk.put(Constants.LANGUAGE, "العربية");
+                    Hawk.put(Constants.LANGUAGE_TYPE, "ar");
+                    LocaleUtils.setLocale(this, "ar");
+                    startActivity(new Intent(this, SplashActivity.class));
+                    finish();
+                    break;
+                default:
+            }
+        });
     }
 
     private void showPopup() {
@@ -136,4 +177,5 @@ public class SettingActivity extends BaseActivity {
         super.onBackPressed();
         finish();
     }
+
 }
